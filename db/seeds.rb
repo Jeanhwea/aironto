@@ -53,7 +53,7 @@ class TemplateImporter
   end
 
   def add_relation template, concept, order
-    name = "#{template[:name]}-#{concept[:name]}"
+    name = "#{template[:name]}/#{concept[:name]}"
     entry = Relation.find_by name: name
     if entry
       entry.template = template
