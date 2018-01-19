@@ -1,4 +1,4 @@
 class Relation < ApplicationRecord
   belongs_to :concept
-  belongs_to :templates
+  belongs_to :template
 end
