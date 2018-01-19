@@ -1,0 +1,4 @@
+电流类型句式模板1.1,从,PORT_HIGH,到,PORT_LOW,发送,CURRENT_PARAM,的,电流,。
+电流类型句式模板1.2,从,PORT_HIGH,到,PORT_LOW,发送,CURRENT_PARAM,且,满足,CONSTRAINT,的,电流,。
+电流类型句式模板1.3,测量,PORT_HIGH,到,PORT_LOW,通路,上,的,电流,，,得到,测量值,为,OUT,。
+电流类型句式模板1.4,移除,从,PORT_HIGH,到,PORT_LOW,的,电流,。
