@@ -25,6 +25,16 @@ class ConceptsController < ApplicationController
     end
   end
 
+  def update
+    @concept = Concept.find(params[:id])
+
+    if @concept.update(concept_params)
+      redirect_to @concept
+    else
+      render 'edit'
+    end
+  end
+
   private
     def concept_params
       params.require(:concept).permit(:name, :description)

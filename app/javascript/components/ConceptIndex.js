@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { List, Avatar } from "antd";
 
-class ConceptList extends React.Component {
+class ConceptIndex extends React.Component {
 
   render() {
     return (
@@ -10,11 +10,11 @@ class ConceptList extends React.Component {
       <List
         itemLayout="horizontal"
         dataSource={this.props.data}
-        renderItem={ item => (
+        renderItem={ concept => (
           <List.Item>
             <List.Item.Meta
-              title={<a href="https://ant.design">{item.name}</a>}
-              description={item.description}
+              title={<a href={"/concepts/"+concept.id+"/edit"}>{concept.name}</a>}
+              description={concept.description}
             />
           </List.Item>
         )}
@@ -25,4 +25,4 @@ class ConceptList extends React.Component {
 
 }
 
-export default ConceptList
+export default ConceptIndex

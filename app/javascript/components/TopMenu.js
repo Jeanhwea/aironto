@@ -19,7 +19,7 @@ class TopMenu extends React.Component {
           mode="horizontal"
         >
           <Menu.Item key="dash">
-            <a href="/">主面板</a>
+            <a href="/main">主面板</a>
           </Menu.Item>
           <Menu.Item key="concepts">
             <a href="/concepts" rel="noopener noreferrer">概念</a>
