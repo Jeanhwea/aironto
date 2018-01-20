@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :concept
+  resources :concepts
 
   get 'main/index'
 

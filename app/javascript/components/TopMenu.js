@@ -21,8 +21,8 @@ class TopMenu extends React.Component {
           <Menu.Item key="dash">
             <a href="/">主面板</a>
           </Menu.Item>
-          <Menu.Item key="concept_index">
-            <a href="/concept" rel="noopener noreferrer">概念</a>
+          <Menu.Item key="concepts">
+            <a href="/concepts" rel="noopener noreferrer">概念</a>
           </Menu.Item>
           <SubMenu title={<span><Icon type="setting" />设置</span>}>
             <MenuItemGroup title="Item 1">
