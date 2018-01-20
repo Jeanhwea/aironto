@@ -28,10 +28,14 @@ class ConceptsController < ApplicationController
   def update
     @concept = Concept.find(params[:id])
 
-    if @concept.update(concept_params)
-      redirect_to @concept
-    else
-      render 'edit'
+    respond_to do |format|
+      if @concept.update(concept_params)
+        @status = :ok
+        format.json
+      else
+        @status = :unprocessable_entity
+        format.json
+      end
     end
   end
 

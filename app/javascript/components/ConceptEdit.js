@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Form, Input, Button} from 'antd';
+import { Form, Input, Button, message } from 'antd';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -31,13 +31,22 @@ class ConceptEdit extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
     $.ajax({
-      url: '/concepts.json',
-      type: 'GET',
-      data: this.state,
+      url: '/concepts/' + this.state.id + '.json',
+      type: 'PATCH',
+      data: {
+        concept: {
+          name: this.state.name,
+          description: this.state.description,
+        }
+      },
       success: (res) => {
-        console.log(res)
+        if(res['status'] == 'ok') {
+          console.log(this.state);
+          message.success('修改成功')
+        } else {
+          message.error('修改失败：' + res['status'])
+        }
       }
     });
   }
