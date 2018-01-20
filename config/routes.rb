@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
-  resources :concepts
+  # resources :concepts
+  get 'concepts/index'
+  get 'concepts/show'
+  get 'concepts/new'
+  get 'concepts/edit'
+  get 'concepts/create'
 
+  # main page
   get 'main/index'
 
   root 'main#index'
