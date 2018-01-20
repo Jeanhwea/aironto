@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { List, Avatar } from "antd";
 
+const ListItem = List.Item;
+const ListItemMeta = List.Item.Meta;
+
 class ConceptIndex extends React.Component {
 
   render() {
@@ -11,12 +14,12 @@ class ConceptIndex extends React.Component {
         itemLayout="horizontal"
         dataSource={this.props.data}
         renderItem={ concept => (
-          <List.Item>
-            <List.Item.Meta
+          <ListItem>
+            <ListItemMeta
               title={<a href={"/concepts/"+concept.id+"/edit"} rel="noopener noreferrer">{concept.name}</a>}
               description={concept.description}
             />
-          </List.Item>
+          </ListItem>
         )}
       />
       </div>

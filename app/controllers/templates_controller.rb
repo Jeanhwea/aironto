@@ -1,7 +1,18 @@
 class TemplatesController < ApplicationController
+
   def index
-    @templates = Template.all
+    @templates = []
+
+    Template.all.each do |t|
+      template = { id: t.id, name: t.name, description: t.description, concepts: [] }
+      t.relations.order(:order).each do |r|
+        template[:concepts] << r.concept
+      end
+      @templates << template
+    end
+
   end
+
 
   def new
   end
