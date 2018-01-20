@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu, Icon } from 'antd';
 const SubMenu = Menu.SubMenu;
+const MenuItem = Menu.Item;
 const MenuItemGroup = Menu.ItemGroup;
 
 class TopMenu extends React.Component {
@@ -18,20 +19,25 @@ class TopMenu extends React.Component {
           theme="dark"
           mode="horizontal"
         >
-          <Menu.Item key="dash">
+          <MenuItem key="dash">
             <a href="/main">主面板</a>
-          </Menu.Item>
-          <Menu.Item key="concepts">
+          </MenuItem>
+          <MenuItem key="concepts">
             <a href="/concepts" rel="noopener noreferrer">概念列表</a>
-          </Menu.Item>
-          <SubMenu title={<span><Icon type="setting" />设置</span>}>
-            <MenuItemGroup title="Item 1">
-              <Menu.Item key="setting:1">Option 1</Menu.Item>
-              <Menu.Item key="setting:2">Option 2</Menu.Item>
+          </MenuItem>
+          <MenuItem key="templates">
+            <a href="/templates" rel="noopener noreferrer">句式列表</a>
+          </MenuItem>
+          <SubMenu title={<span><Icon type="plus-circle-o" />新增</span>}>
+            <MenuItemGroup title="本体">
+              <MenuItem key="new:concept">
+                <a href="/concepts/new" rel="noopener noreferrer">概念</a>
+              </MenuItem>
+              <MenuItem key="setting:2">Option 2</MenuItem>
             </MenuItemGroup>
             <MenuItemGroup title="Item 2">
-              <Menu.Item key="setting:3">Option 3</Menu.Item>
-              <Menu.Item key="setting:4">Option 4</Menu.Item>
+              <MenuItem key="setting:3">Option 3</MenuItem>
+              <MenuItem key="setting:4">Option 4</MenuItem>
             </MenuItemGroup>
           </SubMenu>
         </Menu>

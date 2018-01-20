@@ -3,10 +3,6 @@ class ConceptsController < ApplicationController
     @concepts = Concept.all
   end
 
-  def show
-    @concept = Concept.find(params[:id])
-  end
-
   def new
     @concept = Concept.new
   end
@@ -18,11 +14,16 @@ class ConceptsController < ApplicationController
   def create
     @concept = Concept.new(concept_params)
 
-    if @concept.save
-      redirect_to @concept
+    entry = Concept.find_by :name => concept_params[:name]
+
+    if entry
+      render json: { status: :duplicatied_concept }
+    elsif @concept.save
+      redirect_to edit_concept_path(@concept)
     else
-      render 'new'
+      render json: { status: :forbid_addition }.to_json
     end
+
   end
 
   def update

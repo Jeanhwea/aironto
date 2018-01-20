@@ -16,7 +16,7 @@ const formItemLayout = {
   },
 };
 
-class ConceptEdit extends React.Component {
+class ConceptNew extends React.Component {
 
   constructor(props) {
     super(props);
@@ -32,8 +32,8 @@ class ConceptEdit extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     $.ajax({
-      url: '/concepts/' + this.state.id + '.json',
-      type: 'PATCH',
+      url: '/concepts',
+      type: 'POST',
       data: {
         concept: {
           name: this.state.name,
@@ -43,9 +43,9 @@ class ConceptEdit extends React.Component {
       success: (res) => {
         if(res['status'] == 'ok') {
           console.log(this.state);
-          message.success('修改成功')
+          message.success('添加成功')
         } else {
-          message.error('修改失败：' + res['status'])
+          message.error('添加失败：' + res['status'])
         }
       }
     });
@@ -92,7 +92,7 @@ class ConceptEdit extends React.Component {
             wrapperCol={{ span: 12, offset: 5 }}
           >
           <Button type="primary" htmlType="submit">
-            保存
+            添加
           </Button>
           </FormItem>
         </Form>
@@ -102,4 +102,4 @@ class ConceptEdit extends React.Component {
 
 }
 
-export default ConceptEdit
+export default ConceptNew

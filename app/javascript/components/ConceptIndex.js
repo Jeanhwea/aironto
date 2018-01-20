@@ -13,7 +13,7 @@ class ConceptIndex extends React.Component {
         renderItem={ concept => (
           <List.Item>
             <List.Item.Meta
-              title={<a href={"/concepts/"+concept.id+"/edit"}>{concept.name}</a>}
+              title={<a href={"/concepts/"+concept.id+"/edit"} rel="noopener noreferrer">{concept.name}</a>}
               description={concept.description}
             />
           </List.Item>
