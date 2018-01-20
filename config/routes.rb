@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :templates
+  # get 'templates/index'
+  # get 'templates/new'
+  # get 'templates/edit'
+  # get 'templates/create'
+
   resources :concepts
   # get 'concepts/index'
   # get 'concepts/show'
