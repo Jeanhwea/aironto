@@ -3,6 +3,10 @@ class ConceptsController < ApplicationController
     @concepts = Concept.all
   end
 
+  def show
+    @concept = Concept.find(params[:id])
+  end
+
   def new
     @concept = Concept.new
   end

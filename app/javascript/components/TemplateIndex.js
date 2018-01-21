@@ -29,7 +29,7 @@ class TemplateIndex extends React.Component {
         renderItem={ template => (
           <ListItem>
             <ListItemMeta
-              title={<a href={"/templates/"+template.id+"/edit"} rel="noopener noreferrer">{template.name}</a>}
+              title={<a href={"/templates/"+template.id} rel="noopener noreferrer">{template.name}</a>}
               description={ this.concatTemplates(template.concepts) }
             />
           </ListItem>

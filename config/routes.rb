@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   resources :templates
   # get 'templates/index'
   # get 'templates/new'
