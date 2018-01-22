@@ -1,10 +1,19 @@
-import React from 'react';
-import { Menu, Icon } from 'antd';
-const SubMenu = Menu.SubMenu;
-const MenuItem = Menu.Item;
-const MenuItemGroup = Menu.ItemGroup;
+import React from "react"
+import { Menu, Icon } from "antd"
+
+const SubMenu = Menu.SubMenu
+const MenuItem = Menu.Item
+const MenuItemGroup = Menu.ItemGroup
 
 class TopMenu extends React.Component {
+
+  constructor(props) {
+    super(props)
+    const data = this.props.data || {}
+    this.state = {
+      current: this.props.current
+    }
+  }
 
   handleClick = (e) => {
     console.log(e)
@@ -15,7 +24,7 @@ class TopMenu extends React.Component {
       <div>
         <Menu
           onClick={this.handleClick}
-          selectedKeys={[this.props.current]}
+          selectedKeys={[this.state.current]}
           theme="dark"
           mode="horizontal"
         >
@@ -42,7 +51,7 @@ class TopMenu extends React.Component {
           </SubMenu>
         </Menu>
       </div>
-    );
+    )
   }
 
 }

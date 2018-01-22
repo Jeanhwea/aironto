@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Form, Input, Button, message } from 'antd';
+import React from "react"
+import PropTypes from "prop-types"
+import { Form, Input, Button, Modal } from "antd"
 
-const FormItem = Form.Item;
-const { TextArea } = Input;
+const FormItem = Form.Item
+const { TextArea } = Input
 
 const formItemLayout = {
   labelCol: {
@@ -14,55 +14,60 @@ const formItemLayout = {
     xs: { span: 24 },
     sm: { span: 12 },
   },
-};
+}
 
 class ConceptNew extends React.Component {
 
   constructor(props) {
-    super(props);
-
-    const data = this.props.data || {};
+    super(props)
+    const data = this.props.data || {}
     this.state = {
-      id: data.id,
-      name: data.name,
-      description: data.description,
-    };
+      data: data,
+    }
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     $.ajax({
-      url: '/concepts',
-      type: 'POST',
+      url: "/concepts",
+      type: "POST",
       data: {
         concept: {
-          name: this.state.name,
-          description: this.state.description,
+          name: this.state.data.name,
+          description: this.state.data.description,
         }
       },
       success: (res) => {
-        if(res['status'] == 'ok') {
-          console.log(this.state);
-          message.success('添加成功')
+        if(res.status == "ok") {
+          Modal.success({
+            title: "保存提示",
+            content: "添加成功",
+          })
         } else {
-          message.error('添加失败：' + res['status'])
+          Modal.error({
+            title: "保存提示",
+            content: "添加失败：" + res.status,
+          })
         }
       }
-    });
+    })
   }
 
   handleNameChange = (e) => {
     const name = e.target.value || ""
-    this.setState({ name });
+    this.setState({
+       data: Object.assign({},this.state.data,{name: name})
+    })
   }
 
   handleDescChange = (e) => {
     const description = e.target.value || ""
-    this.setState({ description });
+    this.setState({
+       data: Object.assign({},this.state.data,{description: description})
+    })
   }
 
   render() {
-    // console.log(this.state)
     return (
       <div style={{padding: "25px"}}>
         <Form onSubmit={this.handleSubmit}>
@@ -73,7 +78,7 @@ class ConceptNew extends React.Component {
           <Input
             id="name"
             placeholder="概念名称"
-            value={this.state.name}
+            value={this.state.data.name}
             onChange={this.handleNameChange}
           />
           </FormItem>
@@ -84,7 +89,7 @@ class ConceptNew extends React.Component {
           <TextArea
             id="description"
             placeholder="概念描述"
-            value={this.state.description}
+            value={this.state.data.description}
             onChange={this.handleDescChange}
           />
           </FormItem>
