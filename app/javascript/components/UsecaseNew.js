@@ -1,10 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Form, Input, Button, Modal } from "antd"
+import { Form, Input, Button, Select, Modal } from "antd"
 
+const Option = Select.Option
 const FormItem = Form.Item
 const { TextArea } = Input
-
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -16,19 +16,28 @@ const formItemLayout = {
   },
 }
 
-class ProjectNew extends React.Component {
+class UsecaseNew extends React.Component {
 
   constructor(props) {
     super(props)
     const data = this.props.data || {}
     this.state = {
+      projects: [{"id":1,"name":"RUCM需求项目1","description":"测试项目工程"},{"id":3,"name":"RUCM需求项目2","description":""}],
       data: data,
     }
   }
 
   validateData = () => {
-    const name = this.state.data.name
-    if (name == null || name =='null' || name.trim().length <= 0) {
+    const project_id = this.state.data.project_id
+    if (isNaN(project_id)) {
+      Modal.error({
+        title: '提示',
+        content: '必须选择一个项目',
+      })
+      return false
+    }
+    const title = this.state.data.title
+    if (title == null || title =='null' || title.trim().length <= 0) {
       Modal.error({
         title: '提示',
         content: '项目名称不能为空',
@@ -42,13 +51,10 @@ class ProjectNew extends React.Component {
     e.preventDefault()
     if (this.validateData()) {
       $.ajax({
-        url: "/projects",
+        url: "/usecases",
         type: "POST",
         data: {
-          project: {
-            name: this.state.data.name,
-            description: this.state.data.description,
-          }
+          usecase: this.state.data,
         },
         success: (res) => {
           if(res.status == "ok") {
@@ -67,21 +73,22 @@ class ProjectNew extends React.Component {
     }
   }
 
-  handleNameChange = (e) => {
-    const name = e.target.value || ""
+  handleTitleChange = (e) => {
+    const title = e.target.value || ""
     this.setState({
-       data: Object.assign({},this.state.data,{name: name})
+       data: Object.assign({},this.state.data,{title: title})
     })
   }
 
-  handleDescChange = (e) => {
-    const description = e.target.value || ""
+  handleProjectChange = (value) => {
+    const project_id = value || 0
     this.setState({
-       data: Object.assign({},this.state.data,{description: description})
+       data: Object.assign({},this.state.data,{project_id: project_id})
     })
   }
 
   render() {
+    const project_options = this.state.projects.map(p => <Option key={p.id}>{p.name}</Option>);
     return (
       <div style={{padding: "25px"}}>
         <Form onSubmit={this.handleSubmit}>
@@ -89,30 +96,29 @@ class ProjectNew extends React.Component {
             {...formItemLayout}
             label="项目名称"
           >
-          <Input
-            id="name"
-            placeholder="项目名称"
-            value={this.state.data.name}
-            onChange={this.handleNameChange}
-          />
+            <Select
+              showSearch
+              placeholder="选择一个该用例的归属项目"
+              onChange={this.handleProjectChange}
+            >
+              {project_options}
+            </Select>
           </FormItem>
           <FormItem
             {...formItemLayout}
-            label="项目描述"
+            label="用例名称"
           >
-          <TextArea
-            id="description"
-            placeholder="项目描述"
-            value={this.state.data.description}
-            onChange={this.handleDescChange}
-          />
+            <Input
+              id="title"
+              placeholder="用例名称"
+              value={this.state.data.title}
+              onChange={this.handleTitleChange}
+            />
           </FormItem>
           <FormItem
             wrapperCol={{ span: 12, offset: 5 }}
           >
-          <Button type="primary" htmlType="submit">
-            添加
-          </Button>
+            <Button type="primary" htmlType="submit">添加</Button>
           </FormItem>
         </Form>
       </div>
@@ -121,4 +127,4 @@ class ProjectNew extends React.Component {
 
 }
 
-export default ProjectNew
+export default UsecaseNew

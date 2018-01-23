@@ -26,31 +26,45 @@ class ConceptNew extends React.Component {
     }
   }
 
+  validateData = () => {
+    var name = this.state.data.name
+    if (name == null || name =='null' || name.trim().length <= 0) {
+      Modal.error({
+        title: '提示',
+        content: '概念名称不能为空',
+      })
+      return false
+    }
+    return true
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
-    $.ajax({
-      url: "/concepts",
-      type: "POST",
-      data: {
-        concept: {
-          name: this.state.data.name,
-          description: this.state.data.description,
+    if (this.validateData()) {
+      $.ajax({
+        url: "/concepts",
+        type: "POST",
+        data: {
+          concept: {
+            name: this.state.data.name,
+            description: this.state.data.description,
+          }
+        },
+        success: (res) => {
+          if(res.status == "ok") {
+            Modal.success({
+              title: "保存提示",
+              content: "添加成功",
+            })
+          } else {
+            Modal.error({
+              title: "保存提示",
+              content: "添加失败：" + res.status,
+            })
+          }
         }
-      },
-      success: (res) => {
-        if(res.status == "ok") {
-          Modal.success({
-            title: "保存提示",
-            content: "添加成功",
-          })
-        } else {
-          Modal.error({
-            title: "保存提示",
-            content: "添加失败：" + res.status,
-          })
-        }
-      }
-    })
+      })
+    }
   }
 
   handleNameChange = (e) => {

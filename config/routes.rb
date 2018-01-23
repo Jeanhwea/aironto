@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  # usecases
+  get 'usecases/new'
+  post 'usecases' => 'usecases#create'
+
   resources :projects
   # get 'projects/index'
   # get 'projects/show'

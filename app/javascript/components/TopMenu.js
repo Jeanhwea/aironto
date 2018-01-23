@@ -45,13 +45,14 @@ class TopMenu extends React.Component {
               <MenuItem key="new:concept">
                 <a href="/concepts/new" rel="noopener noreferrer">概念</a>
               </MenuItem>
-              <MenuItem key="setting:2">Option 2</MenuItem>
             </MenuItemGroup>
             <MenuItemGroup title="需求相关">
-              <MenuItem key="new:prject">
+              <MenuItem key="new:project">
                 <a href="/projects/new" rel="noopener noreferrer">RUCM工程</a>
               </MenuItem>
-              <MenuItem key="setting:4">Option 4</MenuItem>
+              <MenuItem key="new:usecase">
+                <a href="/usecases/new" rel="noopener noreferrer">RUCM用例</a>
+              </MenuItem>
             </MenuItemGroup>
           </SubMenu>
         </Menu>
