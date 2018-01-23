@@ -22,9 +22,20 @@ class UsecaseNew extends React.Component {
     super(props)
     const data = this.props.data || {}
     this.state = {
-      projects: [{"id":1,"name":"RUCM需求项目1","description":"测试项目工程"},{"id":3,"name":"RUCM需求项目2","description":""}],
+      projects: [],
       data: data,
     }
+    this.fetchProjects()
+  }
+
+  fetchProjects = () => {
+    $.ajax({
+      url: "/projects.json",
+      type: "GET",
+      success: (res) => {
+        this.setState({ projects: res })
+      }
+    })
   }
 
   validateData = () => {
@@ -88,7 +99,7 @@ class UsecaseNew extends React.Component {
   }
 
   render() {
-    const project_options = this.state.projects.map(p => <Option key={p.id}>{p.name}</Option>);
+    const projectOptions = this.state.projects.map(p => <Option key={p.id}>{p.name}</Option>);
     return (
       <div style={{padding: "25px"}}>
         <Form onSubmit={this.handleSubmit}>
@@ -101,7 +112,7 @@ class UsecaseNew extends React.Component {
               placeholder="选择一个该用例的归属项目"
               onChange={this.handleProjectChange}
             >
-              {project_options}
+              {projectOptions}
             </Select>
           </FormItem>
           <FormItem
