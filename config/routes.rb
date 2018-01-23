@@ -1,14 +1,11 @@
 Rails.application.routes.draw do
 
-  # usecases
-  get 'usecases/new'
-  post 'usecases' => 'usecases#create'
-
-  resources :projects
-  # get 'projects/index'
-  # get 'projects/show'
-  # get 'projects/new'
-  # post 'projects/create'
+  resources :concepts
+  # get 'concepts/index'
+  # get 'concepts/show'
+  # get 'concepts/new'
+  # get 'concepts/edit'
+  # post 'concepts/create'
 
   resources :templates
   # get 'templates/index'
@@ -16,12 +13,18 @@ Rails.application.routes.draw do
   # get 'templates/edit'
   # post 'templates/create'
 
-  resources :concepts
-  # get 'concepts/index'
-  # get 'concepts/show'
-  # get 'concepts/new'
-  # get 'concepts/edit'
-  # post 'concepts/create'
+  resources :projects
+  # get 'projects/index'
+  # get 'projects/show'
+  # get 'projects/new'
+  # post 'projects/create'
+
+  # usecases
+  get 'usecases/new'
+  post 'usecases' => 'usecases#create'
+  resources :projects do
+    resources :usecases, only: [:show, :edit, :update]
+  end
 
   # main page
   get 'main' => 'main#index'

@@ -1,3 +1,19 @@
 // Place all the styles related to the Projects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.project-tree {
+  background: #e6e6d5;
+  float: left;
+  position: fixed;
+  width: 280px;
+  height: 100%;
+  z-index: 9;
+  padding: 25px;
+}
+
+.usecase-show {
+  margin-left: 0px;
+  padding-left: 300px;
+  padding-top: 25px;
+}
