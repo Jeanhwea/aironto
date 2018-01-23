@@ -37,6 +37,9 @@ class TopMenu extends React.Component {
           <MenuItem key="templates">
             <a href="/templates" rel="noopener noreferrer">句式列表</a>
           </MenuItem>
+          <MenuItem key="projects">
+            <a href="/projects" rel="noopener noreferrer">项目列表</a>
+          </MenuItem>
           <SubMenu title={<span><Icon type="plus-circle-o" />新增元素</span>}>
             <MenuItemGroup title="本体相关">
               <MenuItem key="new:concept">
@@ -45,7 +48,9 @@ class TopMenu extends React.Component {
               <MenuItem key="setting:2">Option 2</MenuItem>
             </MenuItemGroup>
             <MenuItemGroup title="需求相关">
-              <MenuItem key="setting:3">RUCM需求用例</MenuItem>
+              <MenuItem key="new:prject">
+                <a href="/projects/new" rel="noopener noreferrer">RUCM工程</a>
+              </MenuItem>
               <MenuItem key="setting:4">Option 4</MenuItem>
             </MenuItemGroup>
           </SubMenu>

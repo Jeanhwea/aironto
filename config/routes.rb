@@ -1,17 +1,23 @@
 Rails.application.routes.draw do
 
+  resources :projects
+  # get 'projects/index'
+  # get 'projects/show'
+  # get 'projects/new'
+  # post 'projects/create'
+
   resources :templates
   # get 'templates/index'
   # get 'templates/new'
   # get 'templates/edit'
-  # get 'templates/create'
+  # post 'templates/create'
 
   resources :concepts
   # get 'concepts/index'
   # get 'concepts/show'
   # get 'concepts/new'
   # get 'concepts/edit'
-  # get 'concepts/create'
+  # post 'concepts/create'
 
   # main page
   get 'main' => 'main#index'
