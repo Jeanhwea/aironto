@@ -40,7 +40,7 @@ class UsecaseNew extends React.Component {
 
   validateData = () => {
     const project_id = this.state.data.project_id
-    if (isNaN(project_id)) {
+    if (project_id == '' || isNaN(project_id)) {
       Modal.error({
         title: '提示',
         content: '必须选择一个项目',
