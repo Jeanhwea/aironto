@@ -40,7 +40,7 @@ class UsecaseNew extends React.Component {
 
   validateData = () => {
     const project_id = this.state.data.project_id
-    if (project_id == '' || isNaN(project_id)) {
+    if (project_id == null || project_id == '' || isNaN(project_id)) {
       Modal.error({
         title: '提示',
         content: '必须选择一个项目',
@@ -51,7 +51,7 @@ class UsecaseNew extends React.Component {
     if (title == null || title =='null' || title.trim().length <= 0) {
       Modal.error({
         title: '提示',
-        content: '项目名称不能为空',
+        content: '用例名称不能为空',
       })
       return false
     }
