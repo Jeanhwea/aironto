@@ -4,7 +4,8 @@ import { Table, Tree, Input, Icon, Button, Popconfirm } from 'antd'
 
 const TreeNode = Tree.TreeNode
 
-class EditableCell extends React.Component {
+// RUCM Begin
+class RUCMEditableCell extends React.Component {
   state = {
     value: this.props.value,
     editable: false,
@@ -13,9 +14,15 @@ class EditableCell extends React.Component {
     const value = e.target.value
     this.setState({ value })
   }
+  handlePressEnter = (e) => {
+    if (e.key == "Enter") {
+      this.check()
+    }
+  }
   check = () => {
     this.setState({ editable: false })
     if (this.props.onChange) {
+      console.log(this.props.onChange)
       this.props.onChange(this.state.value)
     }
   }
@@ -25,27 +32,28 @@ class EditableCell extends React.Component {
   render() {
     const { value, editable } = this.state
     return (
-      <div className="editable-cell">
+      <div className="rucm-editable-cell">
         {
           editable ?
-            <div className="editable-cell-input-wrapper">
-              <Input
+            <div className="rucm-editable-cell-input-wrapper">
+              <input
                 value={value}
                 onChange={this.handleChange}
-                onPressEnter={this.check}
+                onKeyDown={this.handlePressEnter}
+                className="rucm-editable-cell-input"
               />
               <Icon
                 type="check"
-                className="editable-cell-icon-check"
+                className="rucm-editable-cell-icon-check"
                 onClick={this.check}
               />
             </div>
             :
-            <div className="editable-cell-text-wrapper">
+            <div className="rucm-editable-cell-text-wrapper">
               {value || ' '}
               <Icon
                 type="edit"
-                className="editable-cell-icon"
+                className="rucm-editable-cell-icon"
                 onClick={this.edit}
               />
             </div>
@@ -54,6 +62,127 @@ class EditableCell extends React.Component {
     )
   }
 }
+
+class RUCMSteps extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      stepType: this.props.steptype,
+      rfs: "1,2,3",
+      postCondition: "System is well",
+      steps: ["step 123", "step 124", "step 125", ],
+    }
+  }
+
+  addStep = () => {
+    this.setState({ steps: [...this.state.steps, ""]} )
+  }
+
+  render() {
+    const showRFS = this.state.steptype == "basic"
+    const stepsRows = this.state.steps.map(
+      (v, i) => (
+        <div id={"step"+i} className="rucm-row">
+          <div className="rucm-steps-title-cell"><strong>{i}</strong></div>
+          <div className="rucm-content-cell"><RUCMEditableCell value={v} /></div>
+        </div>
+      )
+    )
+    return (
+      <div className="rucm-steps">
+        {
+          showRFS ?
+            <div className="rucm-row">
+              <div className="rucm-steps-title-cell"><strong>RFS</strong></div>
+              <div className="rucm-content-cell"><RUCMEditableCell value={this.state.rfs} /></div>
+            </div>
+          :
+            <div className="rucm-row">
+              <div className="rucm-steps-title-cell"><strong>Steps</strong></div>
+              <div className="rucm-content-cell"></div>
+            </div>
+        }
+        {
+          stepsRows
+        }
+        <div className="rucm-row">
+          <div className="rucm-steps-title-cell">
+            <Icon
+              type="down-circle-o"
+              className="rucm-steps-cell-icon-add"
+              onClick={this.addStep}
+            />
+          </div>
+          <div className="rucm-content-cell">...</div>
+        </div>
+        <div className="rucm-row">
+          <div className="rucm-steps-title-cell"><strong>PostCondition</strong></div>
+          <div className="rucm-content-cell">
+            <RUCMEditableCell value={this.state.postCondition} />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+}
+
+class RUCMTemplate extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      testcase: {
+        name: '测试需求用例名称',
+        description: '测试需求用例的简单描述',
+        preCondition: '前置条件',
+        dependency: '该测试需求用例的所依赖的其他用例名称',
+      }
+    }
+  }
+
+  render() {
+    const testcase = this.state.testcase
+    return (
+      <div className="rucm-template">
+        <div className="rucm-row">
+          <div className="rucm-title-cell"><strong>TestCaseName</strong></div>
+          <div className="rucm-content-cell">
+            <RUCMEditableCell value={testcase.name} />
+          </div>
+        </div>
+        <div className="rucm-row">
+          <div className="rucm-title-cell"><strong>Brief Description</strong></div>
+          <div className="rucm-content-cell">
+            <RUCMEditableCell value={testcase.description} />
+          </div>
+        </div>
+        <div className="rucm-row">
+          <div className="rucm-title-cell"><strong>PreCondition</strong></div>
+          <div className="rucm-content-cell">
+            <RUCMEditableCell value={testcase.preCondition} />
+          </div>
+        </div>
+        <div className="rucm-row">
+          <div className="rucm-title-cell"><strong>Dependency</strong></div>
+          <div className="rucm-content-cell">
+            <RUCMEditableCell value={testcase.dependency} />
+          </div>
+        </div>
+        <div className="rucm-row">
+          <div className="rucm-title-cell"><strong>TestFlow</strong></div>
+          <div className="rucm-container-cell">
+            <RUCMSteps steptype="basic" />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+}
+
+// RUCM End
 
 
 class ProjectShow extends React.Component {
@@ -66,13 +195,8 @@ class ProjectShow extends React.Component {
       dataIndex: 'name',
       width: '30%',
       render: (text, record) => (
-        <EditableCell
-          value={text}
-          onChange={this.onCellChange(record.key, 'name')}
-        />
+        <EditableCell value={text} onChange={this.onCellChange(record.key, 'name')} />
       ),
-    }, {
-      dataIndex: 'age',
     }, {
       dataIndex: 'address',
     }, {
@@ -125,7 +249,6 @@ class ProjectShow extends React.Component {
     const newData = {
       key: count,
       name: `Edward King ${count}`,
-      age: 32,
       address: `London, Park Lane no. ${count}`,
     }
     this.setState({
@@ -176,14 +299,7 @@ class ProjectShow extends React.Component {
           </Tree>
         </div>
         <div id="usecase-show" className="usecase-show">
-          <Table
-            bordered
-            showHeader={false}
-            pagination={false}
-            dataSource={dataSource}
-            columns={columns}
-          />
-          <Button className="editable-add-btn" type="primary" onClick={this.handleAdd}>Add</Button>
+          <RUCMTemplate />
         </div>
       </div>
 

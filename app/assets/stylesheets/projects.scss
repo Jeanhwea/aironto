@@ -16,4 +16,58 @@
   margin-left: 0px;
   padding-left: 300px;
   padding-top: 25px;
+  padding-right: 25px;
 }
+
+.rucm-template {
+  display: table;
+  border: 1px solid;
+  width: 100%
+}
+
+.rucm-row {
+  display: table-row;
+}
+
+.rucm-title-cell {
+  border: 1px solid;
+  display: table-cell;
+  padding-left: 5px;
+  width: 150px;
+}
+
+.rucm-content-cell {
+  border: 1px solid;
+  display: table-cell;
+  padding-left: 5px;
+  width: inherit;
+}
+
+.rucm-container-cell {
+  display: table-cell;
+  width: inherit;
+}
+
+.rucm-steps {
+  display: table;
+  width: 100%;
+  // border: 1px solid;
+}
+
+.rucm-steps-title-cell {
+  border: 1px solid;
+  display: table-cell;
+  padding-left: 5px;
+  width: 120px;
+  text-align: center;
+}
+
+.rucm-editable-cell-input {
+  width: 95%;
+}
+
+.rucm-editable-cell-icon {
+  padding-left: 15px;
+}
+
+
