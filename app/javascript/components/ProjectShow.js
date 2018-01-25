@@ -130,9 +130,15 @@ class RUCMFlow extends React.Component {
     const showCond = this.state.flow.conditionKey != "Basic"
     const stepsRows = this.state.flow.steps.map(
       (v, i) => (
-        <div className="rucm-row" key={"step:"+i}>
+        <div className="rucm-row" key={"step:"+i+":"+v}>
           <div className="rucm-steps-title-cell">
-            <strong>{i}</strong>
+            <Icon
+              id={"step:"+i}
+              type="close-circle"
+              className="rucm-steps-cell-icon-remove"
+              onClick={this.removeStep}
+            />
+            <strong className="rucm-steps-cell-text-remove">{i}</strong>
           </div>
           <div className="rucm-content-cell">
             <RUCMEditableCell value={v} onChange={this.onCellChange("step:"+i)} />
@@ -286,6 +292,7 @@ class RUCMTemplate extends React.Component {
 
   render() {
     console.log("re-rending ...")
+    console.log(this.state)
     const usecase = this.state.usecase
     const specificValidationRows = usecase.specificValidation.map(
       (v, i) => (
