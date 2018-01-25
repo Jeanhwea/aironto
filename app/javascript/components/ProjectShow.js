@@ -6,9 +6,12 @@ const TreeNode = Tree.TreeNode
 
 // RUCM Begin
 class RUCMEditableCell extends React.Component {
-  state = {
-    value: this.props.value,
-    editable: false,
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: this.props.value,
+      editable: false,
+    }
   }
   handleChange = (e) => {
     const value = e.target.value
@@ -22,7 +25,6 @@ class RUCMEditableCell extends React.Component {
   check = () => {
     this.setState({ editable: false })
     if (this.props.onChange) {
-      console.log(this.props.onChange)
       this.props.onChange(this.state.value)
     }
   }
@@ -75,6 +77,12 @@ class RUCMSteps extends React.Component {
     }
   }
 
+  removeStep = (e) => {
+    var idx = parseInt(e.target.id)
+    this.state.steps.splice(idx,1)
+    this.setState({ steps: this.state.steps } )
+  }
+
   addStep = () => {
     this.setState({ steps: [...this.state.steps, ""]} )
   }
@@ -84,7 +92,9 @@ class RUCMSteps extends React.Component {
     const stepsRows = this.state.steps.map(
       (v, i) => (
         <div id={"step"+i} className="rucm-row">
-          <div className="rucm-steps-title-cell"><strong>{i}</strong></div>
+          <div className="rucm-steps-title-cell">
+            <strong>{i}</strong>
+          </div>
           <div className="rucm-content-cell"><RUCMEditableCell value={v} /></div>
         </div>
       )
@@ -138,36 +148,52 @@ class RUCMTemplate extends React.Component {
         description: '测试需求用例的简单描述',
         preCondition: '前置条件',
         dependency: '该测试需求用例的所依赖的其他用例名称',
+        testflow: {
+          steps: [],
+          postCondition: "",
+        },
+        specificValidation: [
+          { rfs: "", steps: [], postCondition: "", },
+        ],
       }
+    }
+  }
+
+  onCellChange = (key) => {
+    return (value) => {
+      const testcase = this.state.testcase
+      testcase[key] = value
+      this.setState({ testcase })
     }
   }
 
   render() {
     const testcase = this.state.testcase
+    console.log(this.state)
     return (
       <div className="rucm-template">
         <div className="rucm-row">
           <div className="rucm-title-cell"><strong>TestCaseName</strong></div>
           <div className="rucm-content-cell">
-            <RUCMEditableCell value={testcase.name} />
+            <RUCMEditableCell value={testcase.name} onChange={this.onCellChange('name')} />
           </div>
         </div>
         <div className="rucm-row">
           <div className="rucm-title-cell"><strong>Brief Description</strong></div>
           <div className="rucm-content-cell">
-            <RUCMEditableCell value={testcase.description} />
+            <RUCMEditableCell value={testcase.description} onChange={this.onCellChange('description')} />
           </div>
         </div>
         <div className="rucm-row">
           <div className="rucm-title-cell"><strong>PreCondition</strong></div>
           <div className="rucm-content-cell">
-            <RUCMEditableCell value={testcase.preCondition} />
+            <RUCMEditableCell value={testcase.preCondition} onChange={this.onCellChange('preCondition')} />
           </div>
         </div>
         <div className="rucm-row">
           <div className="rucm-title-cell"><strong>Dependency</strong></div>
           <div className="rucm-content-cell">
-            <RUCMEditableCell value={testcase.dependency} />
+            <RUCMEditableCell value={testcase.dependency} onChange={this.onCellChange('dependency')}/>
           </div>
         </div>
         <div className="rucm-row">
@@ -281,7 +307,6 @@ class ProjectShow extends React.Component {
   }
 
   render() {
-    console.log(this.getCurrentUsecase())
     const project = this.state.project
     const treeNodes = project.usecases.map(u => <TreeNode title={u.title} key={"usecase:"+u.id}/>)
     const { dataSource } = this.state
