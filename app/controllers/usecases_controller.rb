@@ -10,11 +10,22 @@ class UsecasesController < ApplicationController
   end
 
   def update
+    @usecase = Usecase.find(params[:id])
+
+    respond_to do |format|
+      if @usecase.update(usecase_params)
+        @status = :ok
+        format.json
+      else
+        @status = :unprocessable_entity
+        format.json
+      end
+    end
   end
 
   private
     def usecase_params
-      params.require(:usecase).permit(:title, :usecase, :project_id, :content)
+      params.require(:usecase).permit(:title, :content)
     end
 
 end

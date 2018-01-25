@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Table, Tree, Input, Icon, Button, Popconfirm } from 'antd'
+import { Table, Tree, Input, Icon, Modal, Button, Popconfirm } from 'antd'
 
 const TreeNode = Tree.TreeNode
 
@@ -439,6 +439,7 @@ class ProjectShow extends React.Component {
     this.state = {
       project: this.props.data,
       ucIdx: -1,
+      showProject: true,
     }
   }
 
@@ -453,14 +454,46 @@ class ProjectShow extends React.Component {
   }
 
   handleOnSelect = (selectedKeys, info) => {
+    if (selectedKeys.length > 0 && selectedKeys[0].startsWith("project")){
+      this.setState({ showProject: true})
+    }
     if (selectedKeys.length > 0 && selectedKeys[0].startsWith("usecase")){
       var ucIdx = selectedKeys[0].split(":")[1]
       const target = this.state.project.usecases.find(u => u.id == ucIdx)
-      this.setState({ ucIdx: target.id})
+      this.setState({ showProject: false, ucIdx: target.id})
     }
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const project = this.state.project
+    const usecase = project.usecases.find(u => u.id == this.state.ucIdx)
+    $.ajax({
+      url: "/projects/"+project.id+"/usecases/"+usecase.id+".json",
+      type: "PATCH",
+      data: {
+        usecase: {
+          content: usecase.content,
+        }
+      },
+      success: (res) => {
+        if(res.status == "ok") {
+          Modal.success({
+            title: "保存提示",
+            content: "修改成功",
+          })
+        } else {
+          Modal.error({
+            title: "保存提示",
+            content: "修改失败：" + res.status,
+          })
+        }
+      }
+    })
+  }
+
   render() {
+    // console.log(this.state)
     const project = this.state.project
     const usecase = this.state.project.usecases.find(u => u.id == this.state.ucIdx)
     const treeNodes = project.usecases.map(
@@ -479,11 +512,25 @@ class ProjectShow extends React.Component {
           </Tree>
         </div>
         <div id="usecase-show" className="usecase-show">
-          <RUCMTemplate
-            key={"template:"+this.state.ucIdx}
-            usecase={usecase}
-            onChange={this.onCellChange(this.state.ucIdx)}
-          />
+          {
+            this.state.showProject ?
+              <h2>{project.description}</h2>
+              :
+              <div className="usecase-show-wrapper">
+                <div className="usecase-show-template">
+                  <RUCMTemplate
+                    key={"template:"+this.state.ucIdx}
+                    usecase={usecase}
+                    onChange={this.onCellChange(this.state.ucIdx)}
+                  />
+                </div>
+                <div className="usecase-show-submit-btn-wrapper">
+                  <Button type="primary" className="usecase-show-submit-btn" onClick={this.handleSubmit}>
+                    提交
+                  </Button>
+                </div>
+              </div>
+          }
         </div>
       </div>
     )
