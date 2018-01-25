@@ -202,49 +202,52 @@ class RUCMTemplate extends React.Component {
 
   constructor(props) {
     super(props)
-    console.log(this.props)
-    const usecase = {
-      name: '测试需求用例的名称',
-      description: '测试需求用例的简单描述',
-      precondition: '测试需求用例的前置条件',
-      dependency: '该测试需求用例的所依赖的其他用例名称',
-      testflow: {
-        conditionKey: "Basic",
-        conditionValue: "",
-        steps: ["第一步的描述", "第二步的描述", "第三步的描述"],
-        postcondition: "测试需求用例的后置条件",
-      },
-      specificValidation: [
-        {
-          conditionKey: "RFS",
-          conditionValue: "1,2",
-          steps: [],
-          postcondition: "系统工作正常",
-        },
-        {
-          conditionKey: "RFS",
-          conditionValue: "2",
-          steps: ["step 1", "step 2", "step 3"],
-          postcondition: "系统工作正常",
-        },
-      ],
-      globalValidation: [
-        // {
-        //   conditionKey: "Guard Condition",
-        //   conditionValue: "X > 2A",
-        //   steps: ["step 1", "step 2", "step 3"],
-        //   postcondition: "系统工作正常",
-        // },
-      ],
-    }
     this.state = {
-      usecase: usecase
+      usecase: {
+        name: "TODO",
+        description: "TODO",
+        precondition: "TODO",
+        dependency: "TODO",
+        testflow: {
+          conditionKey: "Basic",
+          conditionValue: "",
+          steps: ["TODO"],
+          postcondition: "TODO",
+        },
+        specificValidation: [],
+        globalValidation: [],
+      }
+    }
+  }
+
+  setUsecase = () => {
+    const usecase = this.props.usecase
+    if ( usecase && usecase.content != "") {
+      const content = $.parseJSON(usecase.content)
+      this.setState({ usecase: content })
+    } else {
+      this.setState({
+        usecase: {
+          name: "TODO",
+          description: "TODO",
+          precondition: "TODO",
+          dependency: "TODO",
+          testflow: {
+            conditionKey: "Basic",
+            conditionValue: "",
+            steps: ["TODO"],
+            postcondition: "TODO",
+          },
+          specificValidation: [],
+          globalValidation: [],
+        }
+      })
     }
   }
 
   update = () => {
     if (this.props.onChange) {
-      // this.props.onChange(this.state.usecase)
+      this.props.onChange(this.state.usecase)
     }
   }
 
@@ -262,37 +265,38 @@ class RUCMTemplate extends React.Component {
           usecase[key] = value
         }
         this.setState({ usecase })
+        this.update()
       }
     }
   }
 
   addSpecificValidation = () => {
-    const specificValidationTemplate = {
+    this.state.usecase.specificValidation.push({
       conditionKey: "RFS",
       conditionValue: "TODO",
       steps: ["TODO"],
       postcondition: "TODO",
-    }
-    this.state.usecase.specificValidation.push(specificValidationTemplate)
+    })
     this.setState({ usecase: this.state.usecase })
     this.update()
   }
 
   addGlobalValidation = () => {
-    const globalValidationTemplate = {
+    this.state.usecase.globalValidation.push({
       conditionKey: "Guard Condition",
       conditionValue: "TODO",
       steps: ["TODO"],
       postcondition: "TODO",
-    }
-    this.state.usecase.globalValidation.push(globalValidationTemplate)
+    })
     this.setState({ usecase: this.state.usecase })
     this.update()
   }
 
+  componentWillMount = () => {
+    this.setUsecase()
+  }
+
   render() {
-    console.log("re-rending ...")
-    console.log(this.state)
     const usecase = this.state.usecase
     const specificValidationRows = usecase.specificValidation.map(
       (v, i) => (
@@ -432,75 +436,36 @@ class ProjectShow extends React.Component {
 
   constructor(props) {
     super(props)
-    const usecase = {
-      name: '测试需求用例的名称',
-      description: '测试需求用例的简单描述',
-      precondition: '测试需求用例的前置条件',
-      dependency: '该测试需求用例的所依赖的其他用例名称',
-      testflow: {
-        conditionKey: "Basic",
-        conditionValue: "",
-        steps: ["第一步的描述", "第二步的描述", "第三步的描述"],
-        postcondition: "测试需求用例的后置条件",
-      },
-      specificValidation: [
-        {
-          conditionKey: "RFS",
-          conditionValue: "1,2",
-          steps: [],
-          postcondition: "系统工作正常",
-        },
-        {
-          conditionKey: "RFS",
-          conditionValue: "2",
-          steps: ["step 1", "step 2", "step 3"],
-          postcondition: "系统工作正常",
-        },
-      ],
-      globalValidation: [
-        // {
-        //   conditionKey: "Guard Condition",
-        //   conditionValue: "X > 2A",
-        //   steps: ["step 1", "step 2", "step 3"],
-        //   postcondition: "系统工作正常",
-        // },
-      ],
-    }
-
     this.state = {
       project: this.props.data,
-      currentUsecaseIdx: -1,
+      ucIdx: -1,
     }
   }
 
-  onCellChange = () => {
+  onCellChange = (ucIdx) => {
     return (value) => {
-      const current = this.getCurrentUsecase()
-      if (current) {
-        this.current = value
+      if (ucIdx >= 0) {
+        const target = this.state.project.usecases.find(u => u.id == ucIdx)
+        target.content = JSON.stringify(value)
+        this.setState({project: this.state.project})
       }
     }
   }
 
-  getCurrentUsecase = () => {
-    return this.state.project.usecases[this.state.currentUsecaseIdx]
-  }
-
   handleOnSelect = (selectedKeys, info) => {
     if (selectedKeys.length > 0 && selectedKeys[0].startsWith("usecase")){
-      var usecaseId = selectedKeys[0].split(":")[1]
-      const target = this.state.project.usecases.find(u => u.id == usecaseId)
-      console.log(target)
-      this.setState({ currentUsecaseIdx: target.id})
+      var ucIdx = selectedKeys[0].split(":")[1]
+      const target = this.state.project.usecases.find(u => u.id == ucIdx)
+      this.setState({ ucIdx: target.id})
     }
   }
 
   render() {
     const project = this.state.project
+    const usecase = this.state.project.usecases.find(u => u.id == this.state.ucIdx)
     const treeNodes = project.usecases.map(
       u => <TreeNode title={u.title} key={"usecase:"+u.id} />
     )
-    console.log(this.state)
     return (
       <div className="project-show">
         <div id="project-tree" className="project-tree">
@@ -514,10 +479,10 @@ class ProjectShow extends React.Component {
           </Tree>
         </div>
         <div id="usecase-show" className="usecase-show">
-          <p>{this.state.currentUsecaseIdx}</p>
           <RUCMTemplate
-            usecase={this.getCurrentUsecase()}
-            onChange={this.onCellChange}
+            key={"template:"+this.state.ucIdx}
+            usecase={usecase}
+            onChange={this.onCellChange(this.state.ucIdx)}
           />
         </div>
       </div>
