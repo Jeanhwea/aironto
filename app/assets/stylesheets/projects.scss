@@ -51,7 +51,6 @@
 .rucm-steps {
   display: table;
   width: 100%;
-  // border: 1px solid;
 }
 
 .rucm-steps-title-cell {
@@ -62,12 +61,21 @@
   text-align: center;
 }
 
+.rucm-editable-cell-text-wrapper {
+  .rucm-editable-cell-icon {
+    visibility: hidden;
+  }
+}
+
+.rucm-editable-cell-text-wrapper:hover {
+  .rucm-editable-cell-icon {
+    visibility: visible;
+  }
+}
+
 .rucm-editable-cell-input {
   width: 95%;
 }
 
-.rucm-editable-cell-icon {
-  padding-left: 15px;
-}
 
 
