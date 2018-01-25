@@ -20,16 +20,16 @@ class RUCMEditableCell extends React.Component {
     this.setState({ value })
   }
 
-  handlePressEnter = (e) => {
-    if (e.key == "Enter") {
-      this.check()
-    }
-  }
-
   update = () => {
     this.setState({ editable: false })
     if (this.props.onChange) {
       this.props.onChange(this.state.value)
+    }
+  }
+
+  handlePressEnter = (e) => {
+    if (e.key == "Enter") {
+      this.update()
     }
   }
 
