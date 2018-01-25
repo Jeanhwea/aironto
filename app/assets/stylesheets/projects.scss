@@ -74,10 +74,33 @@
   }
 }
 
+
 .rucm-editable-cell-text-wrapper:hover {
   .rucm-editable-cell-icon {
     visibility: visible;
   }
+}
+
+.rucm-steps-title-cell {
+  .rucm-steps-cell-icon-remove {
+    display: none;
+  }
+  .rucm-steps-cell-text-remove {
+    display: block;
+  }
+}
+
+.rucm-steps-title-cell:hover {
+  .rucm-steps-cell-icon-remove {
+    display: block;
+  }
+  .rucm-steps-cell-text-remove {
+    display: none;
+  }
+}
+
+.rucm-editable-cell-icon-check {
+  background: red;
 }
 
 .rucm-editable-cell-input {
