@@ -6,6 +6,7 @@ const TreeNode = Tree.TreeNode
 
 // RUCM Begin
 class RUCMEditableCell extends React.Component {
+
   constructor(props) {
     super(props)
     this.state = {
@@ -13,33 +14,37 @@ class RUCMEditableCell extends React.Component {
       editable: false,
     }
   }
+
   handleChange = (e) => {
     const value = e.target.value
     this.setState({ value })
   }
+
   handlePressEnter = (e) => {
     if (e.key == "Enter") {
       this.check()
     }
   }
+
   check = () => {
     this.setState({ editable: false })
     if (this.props.onChange) {
       this.props.onChange(this.state.value)
     }
   }
+
   edit = () => {
     this.setState({ editable: true })
   }
+
   render() {
-    const { value, editable } = this.state
     return (
       <div className="rucm-editable-cell">
         {
-          editable ?
+          this.state.editable ?
             <div className="rucm-editable-cell-input-wrapper">
               <input
-                value={value}
+                value={this.state.value}
                 onChange={this.handleChange}
                 onKeyDown={this.handlePressEnter}
                 className="rucm-editable-cell-input"
@@ -52,7 +57,7 @@ class RUCMEditableCell extends React.Component {
             </div>
             :
             <div className="rucm-editable-cell-text-wrapper">
-              {value || ' '}
+              {this.state.value || ' '}
               <Icon
                 type="edit"
                 className="rucm-editable-cell-icon"
@@ -63,59 +68,87 @@ class RUCMEditableCell extends React.Component {
       </div>
     )
   }
+
 }
 
-class RUCMSteps extends React.Component {
+class RUCMFlow extends React.Component {
 
   constructor(props) {
     super(props)
+    // RUCMFlow: 1. Test Flow; 2. Global Validation; 3. Specific Validation.
+    const flow = this.props.flow
     this.state = {
-      stepType: this.props.steptype,
-      rfs: "1,2,3",
-      postCondition: "System is well",
-      steps: ["step 123", "step 124", "step 125", ],
+      flow: flow,
+    }
+  }
+
+  check = () => {
+    if (this.props.onChange) {
+      this.props.onChange(this.state.flow)
+    }
+  }
+
+  onCellChange = (key) => {
+    return (value) => {
+      const flow = this.state.flow
+      if (flow) {
+        if (key.startsWith("step")) {
+          const stepIdx = parseInt(key.split(":")[1])
+          flow.steps[stepIdx] = value
+        } else {
+          flow[key] = value
+        }
+        this.setState({ flow: this.state.flow })
+        this.check()
+      }
     }
   }
 
   removeStep = (e) => {
     var idx = parseInt(e.target.id)
-    this.state.steps.splice(idx,1)
-    this.setState({ steps: this.state.steps } )
+    this.state.flow.steps.splice(idx,1)
+    this.setState({ flow: this.state.flow } )
+    this.check()
   }
 
   addStep = () => {
-    this.setState({ steps: [...this.state.steps, ""]} )
+    this.state.flow.steps.push("")
+    this.setState({ flow: this.state.flow } )
+    this.check()
   }
 
   render() {
-    const showRFS = this.state.steptype == "basic"
-    const stepsRows = this.state.steps.map(
+    const showCond = this.state.flow.conditionKey != "Basic"
+    const stepsRows = this.state.flow.steps.map(
       (v, i) => (
-        <div id={"step"+i} className="rucm-row">
+        <div className="rucm-row" key={"step:"+i}>
           <div className="rucm-steps-title-cell">
             <strong>{i}</strong>
           </div>
-          <div className="rucm-content-cell"><RUCMEditableCell value={v} /></div>
+          <div className="rucm-content-cell">
+            <RUCMEditableCell value={v} onChange={this.onCellChange("step:"+i)} />
+          </div>
         </div>
       )
     )
     return (
       <div className="rucm-steps">
         {
-          showRFS ?
+          showCond ?
             <div className="rucm-row">
-              <div className="rucm-steps-title-cell"><strong>RFS</strong></div>
-              <div className="rucm-content-cell"><RUCMEditableCell value={this.state.rfs} /></div>
+              <div className="rucm-steps-title-cell"><strong>{this.state.flow.conditionKey}</strong></div>
+              <div className="rucm-content-cell">
+                <RUCMEditableCell value={this.state.flow.conditionValue} onChange={this.onCellChange("conditionValue")}/>
+              </div>
             </div>
           :
-            <div className="rucm-row">
-              <div className="rucm-steps-title-cell"><strong>Steps</strong></div>
-              <div className="rucm-content-cell"></div>
-            </div>
+            <div className="rucm=row"></div>
         }
-        {
-          stepsRows
-        }
+        <div className="rucm-row">
+          <div className="rucm-steps-title-cell"><strong>Steps</strong></div>
+          <div className="rucm-content-cell"></div>
+        </div>
+        { stepsRows }
         <div className="rucm-row">
           <div className="rucm-steps-title-cell">
             <Icon
@@ -127,9 +160,9 @@ class RUCMSteps extends React.Component {
           <div className="rucm-content-cell">...</div>
         </div>
         <div className="rucm-row">
-          <div className="rucm-steps-title-cell"><strong>PostCondition</strong></div>
+          <div className="rucm-steps-title-cell"><strong>Postcondition</strong></div>
           <div className="rucm-content-cell">
-            <RUCMEditableCell value={this.state.postCondition} />
+            <RUCMEditableCell value={this.state.flow.postcondition} onChange={this.onCellChange("postcondition")}/>
           </div>
         </div>
       </div>
@@ -146,34 +179,115 @@ class RUCMTemplate extends React.Component {
       testcase: {
         name: '测试需求用例名称',
         description: '测试需求用例的简单描述',
-        preCondition: '前置条件',
+        precondition: '前置条件',
         dependency: '该测试需求用例的所依赖的其他用例名称',
         testflow: {
-          steps: [],
-          postCondition: "",
+          conditionKey: "Basic",
+          conditionValue: "",
+          steps: ["step 1", "step 2", "step 3"],
+          postcondition: "系统工作正常",
         },
         specificValidation: [
-          { rfs: "", steps: [], postCondition: "", },
+          // {
+          //   conditionKey: "RFS",
+          //   conditionValue: "1,2",
+          //   steps: [],
+          //   postcondition: "系统工作正常",
+          // },
+          // {
+          //   conditionKey: "RFS",
+          //   conditionValue: "2",
+          //   steps: ["step 1", "step 2", "step 3"],
+          //   postcondition: "系统工作正常",
+          // },
+        ],
+        globalValidation: [
+          {
+            conditionKey: "Guard Condition",
+            conditionValue: "X > 2A",
+            steps: ["step 1", "step 2", "step 3"],
+            postcondition: "系统工作正常",
+          },
         ],
       }
+    }
+  }
+
+  check = () => {
+    if (this.props.onChange) {
+      // this.props.onChange(this.state.flow)
     }
   }
 
   onCellChange = (key) => {
     return (value) => {
       const testcase = this.state.testcase
-      testcase[key] = value
-      this.setState({ testcase })
+      if (testcase) {
+        if (key.startsWith("specific")) {
+          const specificIdx = parseInt(key.split(":")[1])
+          testcase.specificValidation[specificIdx] = value
+        } else if (key.startsWith("global")) {
+          const globalIdx = parseInt(key.split(":")[1])
+          testcase.globalValidation[globalIdx] = value
+        } else {
+          testcase[key] = value
+        }
+        this.setState({ testcase })
+      }
     }
+  }
+
+  addSpecificValidation = () => {
+    const specificValidationTemplate = {
+      conditionKey: "RFS",
+      conditionValue: "TODO",
+      steps: ["TODO"],
+      postcondition: "TODO",
+    }
+    this.state.testcase.specificValidation.push(specificValidationTemplate)
+    this.setState({ testcase: this.state.testcase })
+    this.check()
+  }
+
+  addGlobalValidation = () => {
+    const globalValidationTemplate = {
+      conditionKey: "Guard Condition",
+      conditionValue: "TODO",
+      steps: ["TODO"],
+      postcondition: "TODO",
+    }
+    this.state.testcase.globalValidation.push(globalValidationTemplate)
+    this.setState({ testcase: this.state.testcase })
+    this.check()
   }
 
   render() {
     const testcase = this.state.testcase
     console.log(this.state)
+    const specificValidationRows = testcase.specificValidation.map(
+      (v, i) => (
+        <div className="rucm-row" key={"specific:"+i}>
+          <div className="rucm-title-cell"><strong>Specific Validation</strong></div>
+          <div className="rucm-container-cell">
+            <RUCMFlow flow={testcase.specificValidation[i]} onChange={this.onCellChange('specific:'+i)}/>
+          </div>
+        </div>
+      )
+    )
+    const globalValidationRows = testcase.globalValidation.map(
+      (v, i) => (
+        <div className="rucm-row" key={"global:"+i}>
+          <div className="rucm-title-cell"><strong>Global Validation</strong></div>
+          <div className="rucm-container-cell">
+            <RUCMFlow flow={testcase.globalValidation[i]} onChange={this.onCellChange('global:'+i)}/>
+          </div>
+        </div>
+      )
+    )
     return (
       <div className="rucm-template">
         <div className="rucm-row">
-          <div className="rucm-title-cell"><strong>TestCaseName</strong></div>
+          <div className="rucm-title-cell"><strong>Test Case Name</strong></div>
           <div className="rucm-content-cell">
             <RUCMEditableCell value={testcase.name} onChange={this.onCellChange('name')} />
           </div>
@@ -185,9 +299,9 @@ class RUCMTemplate extends React.Component {
           </div>
         </div>
         <div className="rucm-row">
-          <div className="rucm-title-cell"><strong>PreCondition</strong></div>
+          <div className="rucm-title-cell"><strong>Precondition</strong></div>
           <div className="rucm-content-cell">
-            <RUCMEditableCell value={testcase.preCondition} onChange={this.onCellChange('preCondition')} />
+            <RUCMEditableCell value={testcase.precondition} onChange={this.onCellChange('precondition')} />
           </div>
         </div>
         <div className="rucm-row">
@@ -197,9 +311,47 @@ class RUCMTemplate extends React.Component {
           </div>
         </div>
         <div className="rucm-row">
-          <div className="rucm-title-cell"><strong>TestFlow</strong></div>
+          <div className="rucm-title-cell"><strong>Test Flow</strong></div>
           <div className="rucm-container-cell">
-            <RUCMSteps steptype="basic" />
+            <RUCMFlow flow={testcase.testflow} onChange={this.onCellChange('testflow')}/>
+          </div>
+        </div>
+        { specificValidationRows }
+        <div className="rucm-row">
+          <div className="rucm-title-cell">
+            <strong> Specific Validation </strong>
+          </div>
+          <div className="rucm-container-cell">
+            <div className="rucm-steps">
+              <div className="rucm-row">
+                <div className="rucm-content-cell">
+                  <Icon
+                    type="down-square-o"
+                    className="rucm-steps-cell-icon-add"
+                    onClick={this.addSpecificValidation}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        { globalValidationRows }
+        <div className="rucm-row">
+          <div className="rucm-title-cell">
+            <strong> Global Validation </strong>
+          </div>
+          <div className="rucm-container-cell">
+            <div className="rucm-steps">
+              <div className="rucm-row">
+                <div className="rucm-content-cell">
+                  <Icon
+                    type="down-square-o"
+                    className="rucm-steps-cell-icon-add"
+                    onClick={this.addGlobalValidation}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -217,45 +369,12 @@ class ProjectShow extends React.Component {
   constructor(props) {
     super(props)
 
-    this.columns = [{
-      dataIndex: 'name',
-      width: '30%',
-      render: (text, record) => (
-        <EditableCell value={text} onChange={this.onCellChange(record.key, 'name')} />
-      ),
-    }, {
-      dataIndex: 'address',
-    }, {
-      dataIndex: 'operation',
-      render: (text, record) => {
-        return (
-          this.state.dataSource.length > 1 ?
-          (
-            <Popconfirm title="Sure to delete?" onConfirm={() => this.onDelete(record.key)}>
-              <a href="#">Delete</a>
-            </Popconfirm>
-          ) : null
-        )
-      },
-    }]
-
     this.state = {
       project: this.props.data,
       currentUsecaseIdx: -1,
-      dataSource: [{
-        key: '0',
-        name: 'Edward King 0',
-        age: '32',
-        address: 'London, Park Lane no. 0',
-      }, {
-        key: '1',
-        name: 'Edward King 1',
-        age: '32',
-        address: 'London, Park Lane no. 1',
-      }],
-      count: 2,
     }
   }
+
   onCellChange = (key, dataIndex) => {
     return (value) => {
       const dataSource = [...this.state.dataSource]
@@ -265,22 +384,6 @@ class ProjectShow extends React.Component {
         this.setState({ dataSource })
       }
     }
-  }
-  onDelete = (key) => {
-    const dataSource = [...this.state.dataSource]
-    this.setState({ dataSource: dataSource.filter(item => item.key !== key) })
-  }
-  handleAdd = () => {
-    const { count, dataSource } = this.state
-    const newData = {
-      key: count,
-      name: `Edward King ${count}`,
-      address: `London, Park Lane no. ${count}`,
-    }
-    this.setState({
-      dataSource: [...dataSource, newData],
-      count: count + 1,
-    })
   }
 
   getCurrentUsecase = () => {
@@ -297,22 +400,17 @@ class ProjectShow extends React.Component {
   }
 
   handleOnSelect = (selectedKeys, info) => {
-    if (selectedKeys.length > 0) {
-      var treeModelName = selectedKeys[0].split(":")[0]
+    if (selectedKeys.length > 0 && selectedKeys[0].startsWith("usecase")){
       var usecaseId = selectedKeys[0].split(":")[1]
-      if (treeModelName == "usecase") {
-        this.updateUsecaseIdx(usecaseId)
-      }
+      this.updateUsecaseIdx(usecaseId)
     }
   }
 
   render() {
     const project = this.state.project
     const treeNodes = project.usecases.map(u => <TreeNode title={u.title} key={"usecase:"+u.id}/>)
-    const { dataSource } = this.state
-    const columns = this.columns
     return (
-      <div>
+      <div className="project-show">
         <div id="project-tree" className="project-tree">
           <Tree
             showLine
