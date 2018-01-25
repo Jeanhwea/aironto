@@ -26,7 +26,7 @@ class RUCMEditableCell extends React.Component {
     }
   }
 
-  check = () => {
+  update = () => {
     this.setState({ editable: false })
     if (this.props.onChange) {
       this.props.onChange(this.state.value)
@@ -52,7 +52,7 @@ class RUCMEditableCell extends React.Component {
               <Icon
                 type="check"
                 className="rucm-editable-cell-icon-check"
-                onClick={this.check}
+                onClick={this.update}
               />
             </div>
             :
@@ -76,13 +76,19 @@ class RUCMFlow extends React.Component {
   constructor(props) {
     super(props)
     // RUCMFlow: 1. Test Flow; 2. Global Validation; 3. Specific Validation.
+    // flow : {
+    //  conditionKey: "",
+    //  conditionValue: "",
+    //  steps: [],
+    //  postcondition: "",
+    // }
     const flow = this.props.flow
     this.state = {
       flow: flow,
     }
   }
 
-  check = () => {
+  update = () => {
     if (this.props.onChange) {
       this.props.onChange(this.state.flow)
     }
@@ -99,7 +105,7 @@ class RUCMFlow extends React.Component {
           flow[key] = value
         }
         this.setState({ flow: this.state.flow })
-        this.check()
+        this.update()
       }
     }
   }
@@ -108,13 +114,13 @@ class RUCMFlow extends React.Component {
     var idx = parseInt(e.target.id)
     this.state.flow.steps.splice(idx,1)
     this.setState({ flow: this.state.flow } )
-    this.check()
+    this.update()
   }
 
   addStep = () => {
     this.state.flow.steps.push("")
     this.setState({ flow: this.state.flow } )
-    this.check()
+    this.update()
   }
 
   render() {
@@ -213,7 +219,7 @@ class RUCMTemplate extends React.Component {
     }
   }
 
-  check = () => {
+  update = () => {
     if (this.props.onChange) {
       // this.props.onChange(this.state.flow)
     }
@@ -246,7 +252,7 @@ class RUCMTemplate extends React.Component {
     }
     this.state.testcase.specificValidation.push(specificValidationTemplate)
     this.setState({ testcase: this.state.testcase })
-    this.check()
+    this.update()
   }
 
   addGlobalValidation = () => {
@@ -258,7 +264,7 @@ class RUCMTemplate extends React.Component {
     }
     this.state.testcase.globalValidation.push(globalValidationTemplate)
     this.setState({ testcase: this.state.testcase })
-    this.check()
+    this.update()
   }
 
   render() {
@@ -408,7 +414,7 @@ class ProjectShow extends React.Component {
 
   render() {
     const project = this.state.project
-    const treeNodes = project.usecases.map(u => <TreeNode title={u.title} key={"usecase:"+u.id}/>)
+    const treeNodes = project.usecases.map(u => <TreeNode title={u.title} key={"usecase:"+u.id} />)
     return (
       <div className="project-show">
         <div id="project-tree" className="project-tree">
@@ -425,7 +431,6 @@ class ProjectShow extends React.Component {
           <RUCMTemplate />
         </div>
       </div>
-
     )
   }
 
