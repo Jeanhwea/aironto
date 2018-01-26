@@ -193,7 +193,7 @@ class RUCMFlow extends React.Component {
     return (
       <div className="rucm-steps">
         {
-          showCond ?
+          showCond &&
             <div className="rucm-row">
               <div className="rucm-steps-title-cell">
                 <strong>{this.state.flow.conditionKey}</strong>
@@ -205,8 +205,6 @@ class RUCMFlow extends React.Component {
                 />
               </div>
             </div>
-          :
-            <div className="rucm=row"></div>
         }
         <div className="rucm-row">
           <div className="rucm-steps-title-cell">
