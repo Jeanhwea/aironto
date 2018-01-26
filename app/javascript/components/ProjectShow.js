@@ -439,7 +439,7 @@ class RUCMTemplate extends React.Component {
               <div className="rucm-row">
                 <div className="rucm-content-cell">
                   <Icon
-                    type="down-square-o"
+                    type="plus-circle-o"
                     className="rucm-steps-cell-icon-add"
                     onClick={this.addSpecificValidation}
                   />
@@ -458,7 +458,7 @@ class RUCMTemplate extends React.Component {
               <div className="rucm-row">
                 <div className="rucm-content-cell">
                   <Icon
-                    type="down-square-o"
+                    type="plus-circle-o"
                     className="rucm-steps-cell-icon-add"
                     onClick={this.addGlobalValidation}
                   />
