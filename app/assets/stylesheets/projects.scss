@@ -1,0 +1,116 @@
+// Place all the styles related to the Projects controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.project-show {
+  display: flex;
+  height: 1200px;
+  justify-content: flex-start;
+}
+
+.project-tree {
+  background: #e6e6d5;
+  height: 100%;
+  padding: 25px;
+  width: 280px;
+  z-index: 9;
+}
+
+.usecase-show {
+  flex-grow: 1;
+  margin-left: 0px;
+  max-height: 100%;
+  overflow: auto;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 25px;
+}
+
+.usecase-show-submit-btn-wrapper {
+  padding: 25px;
+  float: right;
+}
+
+.rucm-template {
+  display: table;
+  border: 1px solid;
+  width: 100%
+}
+
+.rucm-row {
+  display: table-row;
+}
+
+.rucm-title-cell {
+  border: 1px solid;
+  display: table-cell;
+  padding-left: 5px;
+  width: 150px;
+}
+
+.rucm-content-cell {
+  border: 1px solid;
+  display: table-cell;
+  padding-left: 5px;
+  width: inherit;
+}
+
+.rucm-container-cell {
+  display: table-cell;
+  width: inherit;
+}
+
+.rucm-steps {
+  display: table;
+  width: 100%;
+}
+
+.rucm-steps-title-cell {
+  border: 1px solid;
+  display: table-cell;
+  padding-left: 5px;
+  width: 150px;
+  text-align: center;
+}
+
+.rucm-editable-cell-text-wrapper {
+  .rucm-editable-cell-icon {
+    visibility: hidden;
+  }
+}
+
+
+.rucm-editable-cell-text-wrapper:hover {
+  .rucm-editable-cell-icon {
+    visibility: visible;
+  }
+}
+
+.rucm-steps-title-cell {
+  .rucm-steps-cell-icon-remove {
+    display: none;
+  }
+  .rucm-steps-cell-text-remove {
+    display: block;
+  }
+}
+
+.rucm-steps-title-cell:hover {
+  .rucm-steps-cell-icon-remove {
+    display: block;
+  }
+  .rucm-steps-cell-text-remove {
+    display: none;
+  }
+}
+
+.rucm-editable-cell-icon-check {
+  background: red;
+}
+
+.rucm-editable-cell-input {
+  width: 95%;
+}
+
+
+
