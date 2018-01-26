@@ -110,7 +110,13 @@ class RUCMFlow extends React.Component {
     }
   }
 
-  removeStep = (e) => {
+  stepAdd = (e) => {
+    this.state.flow.steps.push("")
+    this.setState({ flow: this.state.flow } )
+    this.update()
+  }
+
+  stepRemove = (e) => {
     const key = e.target.id
     if (key.startsWith("step")) {
       const stepIdx = parseInt(key.split(":")[1])
@@ -120,10 +126,32 @@ class RUCMFlow extends React.Component {
     }
   }
 
-  addStep = () => {
-    this.state.flow.steps.push("")
-    this.setState({ flow: this.state.flow } )
-    this.update()
+  stepUp = (e) => {
+    const key = e.target.id
+    if (key.startsWith("step")) {
+      const stepIdx = parseInt(key.split(":")[1])
+      if (stepIdx > 0) {
+        const temp = this.state.flow.steps[stepIdx-1]
+        this.state.flow.steps[stepIdx-1] = this.state.flow.steps[stepIdx]
+        this.state.flow.steps[stepIdx] = temp
+      }
+      this.setState({ flow: this.state.flow } )
+      this.update()
+    }
+  }
+
+  stepDown = (e) => {
+    const key = e.target.id
+    if (key.startsWith("step")) {
+      const stepIdx = parseInt(key.split(":")[1])
+      if (stepIdx < this.state.flow.steps.length-1) {
+        const temp = this.state.flow.steps[stepIdx+1]
+        this.state.flow.steps[stepIdx+1] = this.state.flow.steps[stepIdx]
+        this.state.flow.steps[stepIdx] = temp
+      }
+      this.setState({ flow: this.state.flow } )
+      this.update()
+    }
   }
 
   render() {
@@ -132,13 +160,29 @@ class RUCMFlow extends React.Component {
       (v, i) => (
         <div className="rucm-row" key={"step:"+i+":"+v}>
           <div className="rucm-steps-title-cell">
-            <Icon
-              id={"step:"+i}
-              type="close-circle"
-              className="rucm-steps-cell-icon-remove"
-              onClick={this.removeStep}
-            />
-            <strong className="rucm-steps-cell-text-remove">{i}</strong>
+            <div className="rucm-steps-cell-icon-wrapper">
+              <Icon
+                id={"step:"+i}
+                type="close-circle"
+                className="rucm-steps-cell-icon-operator"
+                onClick={this.stepRemove}
+              />
+              <Icon
+                id={"step:"+i}
+                type="up-circle"
+                className="rucm-steps-cell-icon-operator"
+                onClick={this.stepUp}
+              />
+              <Icon
+                id={"step:"+i}
+                type="down-circle"
+                className="rucm-steps-cell-icon-operator"
+                onClick={this.stepDown}
+              />
+            </div>
+            <div className="rucm-steps-cell-text-wrapper">
+              <strong>{i}</strong>
+            </div>
           </div>
           <div className="rucm-content-cell">
             <RUCMEditableCell value={v} onChange={this.onCellChange("step:"+i)} />
@@ -174,9 +218,9 @@ class RUCMFlow extends React.Component {
         <div className="rucm-row">
           <div className="rucm-steps-title-cell">
             <Icon
-              type="down-circle-o"
+              type="plus-circle-o"
               className="rucm-steps-cell-icon-add"
-              onClick={this.addStep}
+              onClick={this.stepAdd}
             />
           </div>
           <div className="rucm-content-cell">...</div>
