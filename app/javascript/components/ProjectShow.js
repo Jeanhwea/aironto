@@ -511,7 +511,7 @@ class ProjectShow extends React.Component {
     const project = this.state.project
     const usecase = project.usecases.find(u => u.id == this.state.ucIdx)
     $.ajax({
-      url: "/projects/"+project.id+"/usecases/"+usecase.id+".json",
+      url: "/usecases/"+usecase.id+".json",
       type: "PATCH",
       data: {
         usecase: {

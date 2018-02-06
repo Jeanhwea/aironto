@@ -19,12 +19,9 @@ Rails.application.routes.draw do
   # get 'projects/new'
   # post 'projects/create'
 
-  # usecases
-  get 'usecases/new'
-  post 'usecases' => 'usecases#create'
-  resources :projects do
-    resources :usecases, only: [:show, :edit, :update]
-  end
+  resources :usecases
+  # get 'usecases/new'
+  # post 'usecases'
 
   # main page
   get 'main' => 'main#index'
