@@ -11,15 +11,15 @@ class RUCMTemplate extends React.Component {
     super(props)
     this.state = {
       usecase: {
-        name: "TODO",
-        description: "TODO",
-        precondition: "TODO",
-        dependency: "TODO",
+        name: "",
+        description: "",
+        precondition: "",
+        dependency: "",
         testflow: {
           conditionKey: "Basic",
           conditionValue: "",
-          steps: ["TODO"],
-          postcondition: "TODO",
+          steps: [""],
+          postcondition: "",
         },
         specificValidation: [],
         globalValidation: [],
@@ -35,15 +35,15 @@ class RUCMTemplate extends React.Component {
     } else {
       this.setState({
         usecase: {
-          name: "TODO",
-          description: "TODO",
-          precondition: "TODO",
-          dependency: "TODO",
+          name: "",
+          description: "",
+          precondition: "",
+          dependency: "",
           testflow: {
             conditionKey: "Basic",
             conditionValue: "",
-            steps: ["TODO"],
-            postcondition: "TODO",
+            steps: [""],
+            postcondition: "",
           },
           specificValidation: [],
           globalValidation: [],
@@ -63,8 +63,8 @@ class RUCMTemplate extends React.Component {
       const usecase = this.state.usecase
       if (usecase) {
         if (key.startsWith("specific")) {
-          const specificIdx = parseInt(key.split(":")[1])
-          usecase.specificValidation[specificIdx] = value
+          const idx = parseInt(key.split(":")[1])
+          usecase.specificValidation[idx] = value
         } else if (key.startsWith("global")) {
           const globalIdx = parseInt(key.split(":")[1])
           usecase.globalValidation[globalIdx] = value
@@ -77,26 +77,128 @@ class RUCMTemplate extends React.Component {
     }
   }
 
-  addSpecificValidation = () => {
+  specificValidationAppend = (e) => {
     this.state.usecase.specificValidation.push({
       conditionKey: "RFS",
-      conditionValue: "TODO",
-      steps: ["TODO"],
-      postcondition: "TODO",
+      conditionValue: "",
+      steps: [""],
+      postcondition: "",
     })
     this.setState({ usecase: this.state.usecase })
     this.update()
   }
 
-  addGlobalValidation = () => {
+  specificValidationInsert = (e) => {
+    const key = e.target.id
+    if (key.startsWith("specific")) {
+      const idx = parseInt(key.split(":")[1])
+      this.state.usecase.specificValidation.splice(idx+1,0,{
+        conditionKey: "RFS",
+        conditionValue: "",
+        steps: [""],
+        postcondition: "",
+      })
+      this.setState({ usecase: this.state.usecase } )
+      this.update()
+    }
+  }
+
+  specificValidationRemove = (e) => {
+    const key = e.target.id
+    if (key.startsWith("specific")) {
+      const idx = parseInt(key.split(":")[1])
+      this.state.usecase.specificValidation.splice(idx,1)
+      this.setState({ usecase: this.state.usecase } )
+      this.update()
+    }
+  }
+
+  specificValidationUp = (e) => {
+    const key = e.target.id
+    if (key.startsWith("specific")) {
+      const idx = parseInt(key.split(":")[1])
+      const validations = this.state.usecase.specificValidation
+      if (idx > 0) {
+        [validations[idx-1], validations[idx]] = [validations[idx], validations[idx-1]]
+      }
+      this.setState({ usecase: this.state.usecase } )
+      this.update()
+    }
+  }
+
+  specificValidationDown = (e) => {
+    const key = e.target.id
+    if (key.startsWith("specific")) {
+      const idx = parseInt(key.split(":")[1])
+      const validations = this.state.usecase.specificValidation
+      if (idx > 0) {
+        [validations[idx+1], validations[idx]] = [validations[idx], validations[idx+1]]
+      }
+      this.setState({ usecase: this.state.usecase } )
+      this.update()
+    }
+  }
+
+  globalValidationAppend = (e) => {
     this.state.usecase.globalValidation.push({
       conditionKey: "Guard Condition",
-      conditionValue: "TODO",
-      steps: ["TODO"],
-      postcondition: "TODO",
+      conditionValue: "",
+      steps: [""],
+      postcondition: "",
     })
     this.setState({ usecase: this.state.usecase })
     this.update()
+  }
+
+  globalValidationInsert = (e) => {
+    const key = e.target.id
+    if (key.startsWith("global")) {
+      const idx = parseInt(key.split(":")[1])
+      this.state.usecase.globalValidation.splice(idx+1,0,{
+        conditionKey: "Guard Condition",
+        conditionValue: "",
+        steps: [""],
+        postcondition: "",
+      })
+      this.setState({ usecase: this.state.usecase } )
+      this.update()
+    }
+  }
+
+  globalValidationRemove = (e) => {
+    const key = e.target.id
+    if (key.startsWith("global")) {
+      const idx = parseInt(key.split(":")[1])
+      this.state.usecase.globalValidation.splice(idx,1)
+      this.setState({ usecase: this.state.usecase } )
+      this.update()
+    }
+  }
+
+  globalValidationUp = (e) => {
+    const key = e.target.id
+    if (key.startsWith("global")) {
+      const idx = parseInt(key.split(":")[1])
+      const validations = this.state.usecase.globalValidation
+      if (idx > 0) {
+        [validations[idx-1], validations[idx]] = [validations[idx], validations[idx-1]]
+      }
+      this.setState({ usecase: this.state.usecase } )
+      this.update()
+    }
+  }
+
+  globalValidationDown = (e) => {
+    const key = e.target.id
+    if (key.startsWith("global")) {
+      const idx = parseInt(key.split(":")[1])
+      const validations = this.state.usecase.globalValidation
+      if (idx > 0) {
+        [validations[idx+1], validations[idx]] = [validations[idx], validations[idx+1]]
+      }
+      this.setState({ usecase: this.state.usecase } )
+      this.update()
+    }
   }
 
   componentWillMount = () => {
@@ -109,7 +211,37 @@ class RUCMTemplate extends React.Component {
       (v, i) => (
         <div className="rucm-row" key={"specific:"+i+":"+shortid.generate()}>
           <div className="rucm-title-cell">
-            <strong>Specific Validation</strong>
+            <div className="rucm-validation-title-cell">
+              <div className="rucm-validation-cell-icon-wrapper">
+                <Icon
+                  id={"specific:"+i}
+                  type="close-circle"
+                  className="rucm-validation-cell-icon-operator"
+                  onClick={this.specificValidationRemove}
+                />
+                <Icon
+                  id={"specific:"+i}
+                  type="plus-circle"
+                  className="rucm-validation-cell-icon-operator"
+                  onClick={this.specificValidationInsert}
+                />
+                <Icon
+                  id={"specific:"+i}
+                  type="up-circle"
+                  className="rucm-validation-cell-icon-operator"
+                  onClick={this.specificValidationUp}
+                />
+                <Icon
+                  id={"specific:"+i}
+                  type="down-circle"
+                  className="rucm-validation-cell-icon-operator"
+                  onClick={this.specificValidationDown}
+                />
+              </div>
+              <div className="rucm-validation-cell-text-wrapper">
+                <strong>Specific Validation</strong>
+              </div>
+            </div>
           </div>
           <div className="rucm-container-cell">
             <RUCMFlow
@@ -124,7 +256,37 @@ class RUCMTemplate extends React.Component {
       (v, i) => (
         <div className="rucm-row" key={"global:"+i+":"+shortid.generate()}>
           <div className="rucm-title-cell">
-            <strong>Global Validation</strong>
+            <div className="rucm-validation-title-cell">
+              <div className="rucm-validation-cell-icon-wrapper">
+                <Icon
+                  id={"global:"+i}
+                  type="close-circle"
+                  className="rucm-validation-cell-icon-operator"
+                  onClick={this.globalValidationRemove}
+                />
+                <Icon
+                  id={"global:"+i}
+                  type="plus-circle"
+                  className="rucm-validation-cell-icon-operator"
+                  onClick={this.globalValidationInsert}
+                />
+                <Icon
+                  id={"global:"+i}
+                  type="up-circle"
+                  className="rucm-validation-cell-icon-operator"
+                  onClick={this.globalValidationUp}
+                />
+                <Icon
+                  id={"global:"+i}
+                  type="down-circle"
+                  className="rucm-validation-cell-icon-operator"
+                  onClick={this.globalValidationDown}
+                />
+              </div>
+              <div className="rucm-validation-cell-text-wrapper">
+                <strong>Global Validation</strong>
+              </div>
+            </div>
           </div>
           <div className="rucm-container-cell">
             <RUCMFlow
@@ -204,7 +366,7 @@ class RUCMTemplate extends React.Component {
                   <Icon
                     type="plus-circle-o"
                     className="rucm-steps-cell-icon-add"
-                    onClick={this.addSpecificValidation}
+                    onClick={this.specificValidationAppend}
                   />
                 </div>
               </div>
@@ -222,8 +384,7 @@ class RUCMTemplate extends React.Component {
                 <div className="rucm-content-cell">
                   <Icon
                     type="plus-circle-o"
-                    className="rucm-steps-cell-icon-add"
-                    onClick={this.addGlobalValidation}
+                    onClick={this.globalValidationAppend}
                   />
                 </div>
               </div>

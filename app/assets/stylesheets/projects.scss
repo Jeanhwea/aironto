@@ -60,6 +60,32 @@
   width: inherit;
 }
 
+.rucm-validation-title-cell {
+  .rucm-validation-cell-icon-wrapper {
+    display: none;
+    spacing: 5px;
+  }
+  .rucm-validation-cell-text-wrapper {
+    display: block;
+  }
+}
+
+.rucm-validation-title-cell:hover {
+  .rucm-validation-cell-icon-wrapper {
+    display: block;
+    spacing: 5px;
+    text-align: center;
+  }
+  .rucm-validation-cell-text-wrapper {
+    display: none;
+  }
+}
+
+.rucm-validation-cell-icon-operator {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
 .rucm-steps {
   display: table;
   width: 100%;

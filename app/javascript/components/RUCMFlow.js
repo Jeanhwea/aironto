@@ -32,8 +32,8 @@ class RUCMFlow extends React.Component {
       const flow = this.state.flow
       if (flow) {
         if (key.startsWith("step")) {
-          const stepIdx = parseInt(key.split(":")[1])
-          flow.steps[stepIdx] = value
+          const idx = parseInt(key.split(":")[1])
+          flow.steps[idx] = value
         } else {
           flow[key] = value
         }
@@ -43,17 +43,28 @@ class RUCMFlow extends React.Component {
     }
   }
 
-  stepAdd = (e) => {
+  // step operators
+  stepAppend = (e) => {
     this.state.flow.steps.push("")
     this.setState({ flow: this.state.flow } )
     this.update()
   }
 
+  stepInsert = (e) => {
+    const key = e.target.id
+    if (key.startsWith("step")) {
+      const idx = parseInt(key.split(":")[1])
+      this.state.flow.steps.splice(idx+1,0,"")
+      this.setState({ flow: this.state.flow } )
+      this.update()
+    }
+  }
+
   stepRemove = (e) => {
     const key = e.target.id
     if (key.startsWith("step")) {
-      const stepIdx = parseInt(key.split(":")[1])
-      this.state.flow.steps.splice(stepIdx,1)
+      const idx = parseInt(key.split(":")[1])
+      this.state.flow.steps.splice(idx,1)
       this.setState({ flow: this.state.flow } )
       this.update()
     }
@@ -62,11 +73,10 @@ class RUCMFlow extends React.Component {
   stepUp = (e) => {
     const key = e.target.id
     if (key.startsWith("step")) {
-      const stepIdx = parseInt(key.split(":")[1])
-      if (stepIdx > 0) {
-        const temp = this.state.flow.steps[stepIdx-1]
-        this.state.flow.steps[stepIdx-1] = this.state.flow.steps[stepIdx]
-        this.state.flow.steps[stepIdx] = temp
+      const idx = parseInt(key.split(":")[1])
+      const steps = this.state.flow.steps
+      if (idx > 0) {
+        [steps[idx-1], steps[idx]] = [steps[idx], steps[idx-1]]
       }
       this.setState({ flow: this.state.flow } )
       this.update()
@@ -76,11 +86,10 @@ class RUCMFlow extends React.Component {
   stepDown = (e) => {
     const key = e.target.id
     if (key.startsWith("step")) {
-      const stepIdx = parseInt(key.split(":")[1])
-      if (stepIdx < this.state.flow.steps.length-1) {
-        const temp = this.state.flow.steps[stepIdx+1]
-        this.state.flow.steps[stepIdx+1] = this.state.flow.steps[stepIdx]
-        this.state.flow.steps[stepIdx] = temp
+      const idx = parseInt(key.split(":")[1])
+      const steps = this.state.flow.steps
+      if (idx < steps.length-1) {
+        [steps[idx+1], steps[idx]] = [steps[idx], steps[idx+1]]
       }
       this.setState({ flow: this.state.flow } )
       this.update()
@@ -99,6 +108,12 @@ class RUCMFlow extends React.Component {
                 type="close-circle"
                 className="rucm-steps-cell-icon-operator"
                 onClick={this.stepRemove}
+              />
+              <Icon
+                id={"step:"+i}
+                type="plus-circle"
+                className="rucm-steps-cell-icon-operator"
+                onClick={this.stepInsert}
               />
               <Icon
                 id={"step:"+i}
@@ -150,8 +165,7 @@ class RUCMFlow extends React.Component {
           <div className="rucm-steps-title-cell">
             <Icon
               type="plus-circle-o"
-              className="rucm-steps-cell-icon-add"
-              onClick={this.stepAdd}
+              onClick={this.stepAppend}
             />
           </div>
           <div className="rucm-content-cell">...</div>
