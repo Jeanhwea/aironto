@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Icon } from 'antd'
+import { Icon } from "antd"
+import shortid from "shortid"
 import RUCMEditableCell from "./RUCMEditableCell"
 import RUCMFlow from "./RUCMFlow"
 
@@ -106,7 +107,7 @@ class RUCMTemplate extends React.Component {
     const usecase = this.state.usecase
     const specificValidationRows = usecase.specificValidation.map(
       (v, i) => (
-        <div className="rucm-row" key={"specific:"+i}>
+        <div className="rucm-row" key={"specific:"+i+":"+shortid.generate()}>
           <div className="rucm-title-cell">
             <strong>Specific Validation</strong>
           </div>
@@ -121,7 +122,7 @@ class RUCMTemplate extends React.Component {
     )
     const globalValidationRows = usecase.globalValidation.map(
       (v, i) => (
-        <div className="rucm-row" key={"global:"+i}>
+        <div className="rucm-row" key={"global:"+i+":"+shortid.generate()}>
           <div className="rucm-title-cell">
             <strong>Global Validation</strong>
           </div>

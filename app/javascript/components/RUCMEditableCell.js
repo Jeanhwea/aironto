@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Icon } from 'antd'
+import { Icon } from "antd"
 
 class RUCMEditableCell extends React.Component {
 

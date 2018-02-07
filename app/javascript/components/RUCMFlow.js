@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Icon } from 'antd'
+import { Icon } from "antd"
+import shortid from "shortid"
 import RUCMEditableCell from "./RUCMEditableCell"
 
 class RUCMFlow extends React.Component {
@@ -90,7 +91,7 @@ class RUCMFlow extends React.Component {
     const showCond = this.state.flow.conditionKey != "Basic"
     const stepsRows = this.state.flow.steps.map(
       (v, i) => (
-        <div className="rucm-row" key={"step:"+i+":"+v}>
+        <div className="rucm-row" key={"step:"+i+":"+shortid.generate()}>
           <div className="rucm-steps-title-cell">
             <div className="rucm-steps-cell-icon-wrapper">
               <Icon

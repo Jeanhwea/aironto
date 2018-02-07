@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Table, Tree, Input, Icon, Modal, Button, Popconfirm } from 'antd'
+import { Table, Tree, Input, Icon, Modal, Button, Popconfirm } from "antd"
 import RUCMTemplate from "./RUCMTemplate"
 
 const TreeNode = Tree.TreeNode
