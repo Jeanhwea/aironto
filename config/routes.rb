@@ -22,6 +22,12 @@ Rails.application.routes.draw do
   resources :usecases
   # get 'usecases/new'
   # post 'usecases'
+  # patch 'usecases/update'
+
+  resources :port_definitions
+  # get 'port_definitions/new'
+  # post 'port_definitions/create'
+  # patch 'port_definitions/update'
 
   # main page
   get 'main' => 'main#index'
