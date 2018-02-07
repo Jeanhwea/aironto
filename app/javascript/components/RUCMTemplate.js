@@ -120,9 +120,9 @@ class RUCMTemplate extends React.Component {
       const validations = this.state.usecase.specificValidation
       if (idx > 0) {
         [validations[idx-1], validations[idx]] = [validations[idx], validations[idx-1]]
+        this.setState({ usecase: this.state.usecase } )
+        this.update()
       }
-      this.setState({ usecase: this.state.usecase } )
-      this.update()
     }
   }
 
@@ -131,11 +131,11 @@ class RUCMTemplate extends React.Component {
     if (key.startsWith("specific")) {
       const idx = parseInt(key.split(":")[1])
       const validations = this.state.usecase.specificValidation
-      if (idx > 0) {
+      if (idx < validations.length-1) {
         [validations[idx+1], validations[idx]] = [validations[idx], validations[idx+1]]
+        this.setState({ usecase: this.state.usecase } )
+        this.update()
       }
-      this.setState({ usecase: this.state.usecase } )
-      this.update()
     }
   }
 
@@ -182,9 +182,9 @@ class RUCMTemplate extends React.Component {
       const validations = this.state.usecase.globalValidation
       if (idx > 0) {
         [validations[idx-1], validations[idx]] = [validations[idx], validations[idx-1]]
+        this.setState({ usecase: this.state.usecase } )
+        this.update()
       }
-      this.setState({ usecase: this.state.usecase } )
-      this.update()
     }
   }
 
@@ -193,11 +193,11 @@ class RUCMTemplate extends React.Component {
     if (key.startsWith("global")) {
       const idx = parseInt(key.split(":")[1])
       const validations = this.state.usecase.globalValidation
-      if (idx > 0) {
+      if (idx < validations.length-1) {
         [validations[idx+1], validations[idx]] = [validations[idx], validations[idx+1]]
+        this.setState({ usecase: this.state.usecase } )
+        this.update()
       }
-      this.setState({ usecase: this.state.usecase } )
-      this.update()
     }
   }
 
