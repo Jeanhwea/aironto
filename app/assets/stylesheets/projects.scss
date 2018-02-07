@@ -55,6 +55,10 @@
   width: inherit;
 }
 
+.rucm-content-cell-icon-add:hover {
+  cursor: pointer;
+}
+
 .rucm-container-cell {
   display: table-cell;
   width: inherit;
@@ -84,6 +88,10 @@
 .rucm-validation-cell-icon-operator {
   margin-left: 3px;
   margin-right: 3px;
+}
+
+.rucm-validation-cell-icon-operator:hover {
+  cursor: pointer;
 }
 
 .rucm-steps {
@@ -135,6 +143,14 @@
 .rucm-steps-cell-icon-operator {
   margin-left: 3px;
   margin-right: 3px;
+}
+
+.rucm-steps-cell-icon-operator {
+  cursor: pointer;
+}
+
+.rucm-steps-cell-icon-add:hover {
+  cursor: pointer;
 }
 
 .rucm-editable-cell-icon-check {

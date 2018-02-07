@@ -165,6 +165,7 @@ class RUCMFlow extends React.Component {
           <div className="rucm-steps-title-cell">
             <Icon
               type="plus-circle-o"
+              className="rucm-steps-cell-icon-add"
               onClick={this.stepAppend}
             />
           </div>

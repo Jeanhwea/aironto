@@ -365,7 +365,7 @@ class RUCMTemplate extends React.Component {
                 <div className="rucm-content-cell">
                   <Icon
                     type="plus-circle-o"
-                    className="rucm-steps-cell-icon-add"
+                    className="rucm-content-cell-icon-add"
                     onClick={this.specificValidationAppend}
                   />
                 </div>
