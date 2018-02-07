@@ -38,4 +38,7 @@ class ProjectIndex extends React.Component {
 
 }
 
+ProjectIndex.propTypes = {
+  data: PropTypes.array
+}
 export default ProjectIndex

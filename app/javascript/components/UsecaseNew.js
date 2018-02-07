@@ -138,4 +138,7 @@ class UsecaseNew extends React.Component {
 
 }
 
+UsecaseNew.propTypes = {
+  data: PropTypes.object
+}
 export default UsecaseNew

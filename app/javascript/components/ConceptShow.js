@@ -23,4 +23,7 @@ class ConceptShow extends React.Component {
 
 }
 
+ConceptShow.propTypes = {
+  data: PropTypes.object
+}
 export default ConceptShow

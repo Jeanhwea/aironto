@@ -121,4 +121,7 @@ class ProjectNew extends React.Component {
 
 }
 
+ProjectNew.propTypes = {
+  data: PropTypes.object
+}
 export default ProjectNew

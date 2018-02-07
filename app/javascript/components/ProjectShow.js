@@ -112,5 +112,7 @@ class ProjectShow extends React.Component {
 
 }
 
-
+ProjectShow.propTypes = {
+  data: PropTypes.object
+}
 export default ProjectShow

@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { Menu, Icon } from "antd"
 
 const SubMenu = Menu.SubMenu
@@ -62,4 +63,7 @@ class TopMenu extends React.Component {
 
 }
 
+TopMenu.propTypes = {
+  current: PropTypes.string
+}
 export default TopMenu

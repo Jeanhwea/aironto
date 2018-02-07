@@ -172,4 +172,8 @@ class RUCMFlow extends React.Component {
 
 }
 
+RUCMFlow.propTypes = {
+  flow: PropTypes.object,
+  onChange: PropTypes.func
+}
 export default RUCMFlow

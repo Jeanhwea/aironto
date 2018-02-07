@@ -68,4 +68,9 @@ class RUCMEditableCell extends React.Component {
 
 }
 
+
+RUCMEditableCell.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func
+};
 export default RUCMEditableCell

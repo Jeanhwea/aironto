@@ -38,4 +38,7 @@ class ConceptIndex extends React.Component {
 
 }
 
+ConceptIndex.propTypes = {
+  data: PropTypes.array
+}
 export default ConceptIndex

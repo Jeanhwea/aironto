@@ -32,4 +32,7 @@ class TemplateShow extends React.Component {
 
 }
 
+TemplateShow.propTypes = {
+  data: PropTypes.object
+}
 export default TemplateShow

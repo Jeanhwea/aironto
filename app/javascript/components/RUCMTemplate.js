@@ -235,4 +235,8 @@ class RUCMTemplate extends React.Component {
 
 }
 
+RUCMTemplate.propTypes = {
+  usecase: PropTypes.object,
+  onChange: PropTypes.func
+}
 export default RUCMTemplate
