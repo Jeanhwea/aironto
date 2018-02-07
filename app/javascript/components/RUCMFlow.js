@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { Icon } from 'antd'
-import RUCMEditableCell from "./RUCMEditableCell.js"
+import RUCMEditableCell from "./RUCMEditableCell"
 
 class RUCMFlow extends React.Component {
 
