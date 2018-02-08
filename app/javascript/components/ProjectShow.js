@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { Table, Tree, Input, Icon, Modal, Button, Popconfirm } from "antd"
 import shortid from "shortid"
 import RUCMTemplate from "./RUCMTemplate"
+import RUCMDevice from "./RUCMDevice"
 
 const TreeNode = Tree.TreeNode
 
@@ -21,10 +22,20 @@ class ProjectShow extends React.Component {
     }
   }
 
-  onCellChange = (ucIdx) => {
+  onTemplateChange = (ucIdx) => {
     return (value) => {
       if (ucIdx >= 0) {
         const target = this.state.project.usecases.find(u => u.id == ucIdx)
+        target.content = JSON.stringify(value)
+        this.setState({project: this.state.project})
+      }
+    }
+  }
+
+  onDeviceChange = (pdIdx) => {
+    return (value) => {
+      if (pdIdx >= 0) {
+        const target = this.state.project.port_definitions.find(p => p.id == pdIdx)
         target.content = JSON.stringify(value)
         this.setState({project: this.state.project})
       }
@@ -43,12 +54,11 @@ class ProjectShow extends React.Component {
     if (selectedKeys.length > 0 && selectedKeys[0].startsWith("port_definition")){
       var pdIdx = selectedKeys[0].split(":")[1]
       const target = this.state.project.port_definitions.find(p => p.id == pdIdx)
-      console.log(target)
       this.setState({ showProject: false, showUseCase: false, showPortDefinition: true, pdIdx: target.id})
     }
   }
 
-  handleSubmit = (e) => {
+  handleUsecaseSubmit = (e) => {
     e.preventDefault()
     const project = this.state.project
     const usecase = project.usecases.find(u => u.id == this.state.ucIdx)
@@ -76,10 +86,40 @@ class ProjectShow extends React.Component {
     })
   }
 
+  handlePortDefinitionSubmit = (e) => {
+    e.preventDefault()
+    const project = this.state.project
+    const port_definition = project.port_definitions.find(p => p.id == this.state.pdIdx)
+    $.ajax({
+      url: "/port_definitions/"+port_definition.id+".json",
+      type: "PATCH",
+      data: {
+        port_definition: {
+          content: port_definition.content,
+        }
+      },
+      success: (res) => {
+        if(res.status == "ok") {
+          Modal.success({
+            title: "保存提示",
+            content: "修改成功",
+          })
+        } else {
+          Modal.error({
+            title: "保存提示",
+            content: "修改失败：" + res.status,
+          })
+        }
+      }
+    })
+  }
+
   render() {
     // console.log(this.state)
     const project = this.state.project
-    const usecase = this.state.project.usecases.find(u => u.id == this.state.ucIdx)
+    const usecase = project.usecases.find(u => u.id == this.state.ucIdx)
+    const port_definition = project.port_definitions.find(p => p.id == this.state.pdIdx)
+    // tree nodes
     const ucTreeNodes = project.usecases.map(
       u => <TreeNode title={u.title} key={"usecase:"+u.id} />
     )
@@ -104,7 +144,7 @@ class ProjectShow extends React.Component {
             </TreeNode>
           </Tree>
         </div>
-        <div id="usecase-show" className="usecase-show">
+        <div id="detail-show" className="detail-show">
           {
             this.state.showProject &&
               <div>
@@ -122,11 +162,28 @@ class ProjectShow extends React.Component {
                   <RUCMTemplate
                     key={"template:"+this.state.ucIdx}
                     usecase={usecase}
-                    onChange={this.onCellChange(this.state.ucIdx)}
+                    onChange={this.onTemplateChange(this.state.ucIdx)}
                   />
                 </div>
                 <div className="usecase-show-submit-btn-wrapper">
-                  <Button type="primary" className="usecase-show-submit-btn" onClick={this.handleSubmit}>
+                  <Button type="primary" className="usecase-show-submit-btn" onClick={this.handleUsecaseSubmit}>
+                    提交
+                  </Button>
+                </div>
+              </div>
+          }
+          {
+            this.state.showPortDefinition &&
+              <div className="device-show-wrapper">
+                <div className="device-show-template">
+                  <RUCMDevice
+                    key={"device:"+this.state.pdIdx}
+                    port_definition={port_definition}
+                    onChange={this.onDeviceChange(this.state.pdIdx)}
+                  />
+                </div>
+                <div className="device-show-submit-btn-wrapper">
+                  <Button type="primary" className="device-show-submit-btn" onClick={this.handlePortDefinitionSubmit}>
                     提交
                   </Button>
                 </div>

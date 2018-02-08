@@ -16,7 +16,7 @@
   z-index: 9;
 }
 
-.usecase-show {
+.detail-show {
   flex-grow: 1;
   margin-left: 0px;
   max-height: 100%;
@@ -27,6 +27,11 @@
 }
 
 .usecase-show-submit-btn-wrapper {
+  padding: 25px;
+  float: right;
+}
+
+.device-show-submit-btn-wrapper {
   padding: 25px;
   float: right;
 }
@@ -62,6 +67,48 @@
 .rucm-container-cell {
   display: table-cell;
   width: inherit;
+}
+
+
+.rucm-port-definition {
+  display: table;
+  border: 1px solid;
+  width: 100%;
+}
+
+.rucm-port-definition-row {
+  display: table-row;
+}
+
+.rucm-port-definition-caption-num, .rucm-port-definition-cell-num {
+  border: 1px solid;
+  display: table-cell;
+  padding-left: 5px;
+  text-align: center;
+  width: 80px;
+}
+
+.rucm-port-definition-caption-name,
+.rucm-port-definition-caption-type,
+.rucm-port-definition-caption-minimum,
+.rucm-port-definition-caption-maximum,
+.rucm-port-definition-caption-unit,
+.rucm-port-definition-cell-name,
+.rucm-port-definition-cell-type,
+.rucm-port-definition-cell-minimum,
+.rucm-port-definition-cell-maximum,
+.rucm-port-definition-cell-unit
+{
+  border: 1px solid;
+  display: table-cell;
+  width: 100px;
+  padding-left: 5px;
+}
+
+.rucm-port-definition-caption-description, .rucm-port-definition-cell-description {
+  border: 1px solid;
+  display: table-cell;
+  padding-left: 5px;
 }
 
 .rucm-validation-title-cell {
@@ -113,7 +160,6 @@
   }
 }
 
-
 .rucm-editable-cell-text-wrapper:hover {
   .rucm-editable-cell-icon {
     visibility: visible;
@@ -153,12 +199,9 @@
   cursor: pointer;
 }
 
-.rucm-editable-cell-icon-check {
-  background: red;
-}
-
 .rucm-editable-cell-input {
-  width: 95%;
+  border: 1px solid red;
+  width: 100%;
 }
 
 

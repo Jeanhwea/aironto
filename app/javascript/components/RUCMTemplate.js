@@ -246,7 +246,7 @@ class RUCMTemplate extends React.Component {
           <div className="rucm-container-cell">
             <RUCMFlow
               flow={usecase.specificValidation[i]}
-              onChange={this.onCellChange('specific:'+i)}
+              onChange={this.onCellChange("specific:"+i)}
             />
           </div>
         </div>
@@ -291,7 +291,7 @@ class RUCMTemplate extends React.Component {
           <div className="rucm-container-cell">
             <RUCMFlow
               flow={usecase.globalValidation[i]}
-              onChange={this.onCellChange('global:'+i)}
+              onChange={this.onCellChange("global:"+i)}
             />
           </div>
         </div>
@@ -306,7 +306,7 @@ class RUCMTemplate extends React.Component {
           <div className="rucm-content-cell">
             <RUCMEditableCell
               value={usecase.name}
-              onChange={this.onCellChange('name')}
+              onChange={this.onCellChange("name")}
             />
           </div>
         </div>
@@ -317,7 +317,7 @@ class RUCMTemplate extends React.Component {
           <div className="rucm-content-cell">
             <RUCMEditableCell
               value={usecase.description}
-              onChange={this.onCellChange('description')}
+              onChange={this.onCellChange("description")}
             />
           </div>
         </div>
@@ -328,7 +328,7 @@ class RUCMTemplate extends React.Component {
           <div className="rucm-content-cell">
             <RUCMEditableCell
               value={usecase.precondition}
-              onChange={this.onCellChange('precondition')}
+              onChange={this.onCellChange("precondition")}
             />
           </div>
         </div>
@@ -339,7 +339,7 @@ class RUCMTemplate extends React.Component {
           <div className="rucm-content-cell">
             <RUCMEditableCell
               value={usecase.dependency}
-              onChange={this.onCellChange('dependency')}
+              onChange={this.onCellChange("dependency")}
             />
           </div>
         </div>
@@ -350,7 +350,7 @@ class RUCMTemplate extends React.Component {
           <div className="rucm-container-cell">
             <RUCMFlow
               flow={usecase.testflow}
-              onChange={this.onCellChange('testflow')}
+              onChange={this.onCellChange("testflow")}
             />
           </div>
         </div>

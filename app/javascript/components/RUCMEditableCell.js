@@ -46,11 +46,6 @@ class RUCMEditableCell extends React.Component {
                 onKeyDown={this.handlePressEnter}
                 className="rucm-editable-cell-input"
               />
-              <Icon
-                type="check"
-                className="rucm-editable-cell-icon-check"
-                onClick={this.update}
-              />
             </div>
             :
             <div className="rucm-editable-cell-text-wrapper">
