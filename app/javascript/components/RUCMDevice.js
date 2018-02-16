@@ -157,18 +157,18 @@ class RUCMDevice extends React.Component {
         </div>
         { portDefinitionRows }
         <div className="rucm-port-definition-row">
-          <div className="rucm-port-definition-cell">
+          <div className="rucm-port-definition-cell-num">
             <Icon
               type="plus-circle-o"
               onClick={this.portDefinitioAppend}
             />
           </div>
-          <div className="rucm-port-definition-cell"> </div>
-          <div className="rucm-port-definition-cell"> </div>
-          <div className="rucm-port-definition-cell"> </div>
-          <div className="rucm-port-definition-cell"> </div>
-          <div className="rucm-port-definition-cell"> </div>
-          <div className="rucm-port-definition-cell"> </div>
+          <div className="rucm-port-definition-cell-name"> </div>
+          <div className="rucm-port-definition-cell-type"> </div>
+          <div className="rucm-port-definition-cell-minimum"> </div>
+          <div className="rucm-port-definition-cell-maximum"> </div>
+          <div className="rucm-port-definition-cell-unit"> </div>
+          <div className="rucm-port-definition-cell-description"> </div>
         </div>
       </div>
     )
