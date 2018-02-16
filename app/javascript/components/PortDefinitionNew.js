@@ -16,7 +16,7 @@ const formItemLayout = {
   },
 }
 
-class UsecaseNew extends React.Component {
+class PortDefinitionNew extends React.Component {
 
   constructor(props) {
     super(props)
@@ -47,11 +47,11 @@ class UsecaseNew extends React.Component {
       })
       return false
     }
-    const title = this.state.data.title
-    if (title == null || title =='null' || title.trim().length <= 0) {
+    const name = this.state.data.name
+    if (name == null || name =='null' || name.trim().length <= 0) {
       Modal.error({
-        title: '提示',
-        content: '用例名称不能为空',
+        name: '提示',
+        content: '端口定义表名称不能为空',
       })
       return false
     }
@@ -62,10 +62,10 @@ class UsecaseNew extends React.Component {
     e.preventDefault()
     if (this.validateData()) {
       $.ajax({
-        url: "/usecases",
+        url: "/port_definitions",
         type: "POST",
         data: {
-          usecase: this.state.data,
+          port_definition: this.state.data,
         },
         success: (res) => {
           if(res.status == "ok") {
@@ -84,10 +84,10 @@ class UsecaseNew extends React.Component {
     }
   }
 
-  handleTitleChange = (e) => {
-    const title = e.target.value || ""
+  handleNameChange = (e) => {
+    const name = e.target.value || ""
     this.setState({
-       data: Object.assign({},this.state.data,{title: title})
+       data: Object.assign({},this.state.data,{name: name})
     })
   }
 
@@ -109,7 +109,7 @@ class UsecaseNew extends React.Component {
           >
             <Select
               showSearch
-              placeholder="选择一个该用例的归属项目"
+              placeholder="选择一个该端口定义表的归属项目"
               onChange={this.handleProjectChange}
             >
               {projectOptions}
@@ -117,13 +117,13 @@ class UsecaseNew extends React.Component {
           </FormItem>
           <FormItem
             {...formItemLayout}
-            label="用例名称"
+            label="端口定义表名称"
           >
             <Input
-              id="title"
-              placeholder="用例名称"
-              value={this.state.data.title}
-              onChange={this.handleTitleChange}
+              id="name"
+              placeholder="端口定义表名称"
+              value={this.state.data.name}
+              onChange={this.handleNameChange}
             />
           </FormItem>
           <FormItem
@@ -138,7 +138,7 @@ class UsecaseNew extends React.Component {
 
 }
 
-UsecaseNew.propTypes = {
+PortDefinitionNew.propTypes = {
   data: PropTypes.object
 }
-export default UsecaseNew
+export default PortDefinitionNew

@@ -5,8 +5,24 @@ class UsecasesController < ApplicationController
 
   def create
     @project = Project.find(usecase_params[:project_id])
-    @usecase = @project.usecases.create(usecase_params)
-    redirect_to project_path(@project)
+
+    entry = Usecase.find_by :project => @project, :title => usecase_params[:title]
+
+    if entry
+      render json: { status: :duplicatied_usecase }
+    else
+      @usecase = @project.usecases.create(usecase_params)
+      respond_to do |format|
+        if @usecase
+          @status = :ok
+          format.json
+        else
+          @status = :unprocessable_entity
+          format.json
+        end
+      end
+    end
+
   end
 
   def update
@@ -25,7 +41,7 @@ class UsecasesController < ApplicationController
 
   private
     def usecase_params
-      params.require(:usecase).permit(:title, :content)
+      params.require(:usecase).permit(:title, :content, :project_id)
     end
 
 end

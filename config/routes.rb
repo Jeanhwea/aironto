@@ -19,16 +19,20 @@ Rails.application.routes.draw do
   # get 'projects/new'
   # post 'projects/create'
 
-  # usecases
-  get 'usecases/new'
-  post 'usecases' => 'usecases#create'
-  resources :projects do
-    resources :usecases, only: [:show, :edit, :update]
-  end
+  resources :usecases
+  # get 'usecases/new'
+  # post 'usecases'
+  # patch 'usecases/update'
+
+  resources :port_definitions
+  # get 'port_definitions/new'
+  # post 'port_definitions/create'
+  # patch 'port_definitions/update'
 
   # main page
   get 'main' => 'main#index'
 
   root 'main#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
 end

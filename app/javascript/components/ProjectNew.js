@@ -51,12 +51,7 @@ class ProjectNew extends React.Component {
           }
         },
         success: (res) => {
-          if(res.status == "ok") {
-            Modal.success({
-              title: "保存提示",
-              content: "添加成功",
-            })
-          } else {
+          if(res.status != "ok") {
             Modal.error({
               title: "保存提示",
               content: "添加失败：" + res.status,
@@ -121,4 +116,7 @@ class ProjectNew extends React.Component {
 
 }
 
+ProjectNew.propTypes = {
+  data: PropTypes.object
+}
 export default ProjectNew

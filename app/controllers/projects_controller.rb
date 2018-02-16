@@ -5,9 +5,18 @@ class ProjectsController < ApplicationController
 
   def show
     p = Project.find(params[:id])
-    @project = {id: p.id, name: p.name, description: p.description, usecases: []}
+    @project = {
+      id: p.id,
+      name: p.name,
+      description: p.description,
+      port_definitions: [],
+      usecases: []
+    }
     p.usecases.each do |u|
       @project[:usecases] << u
+    end
+    p.port_definitions.each do |pd|
+      @project[:port_definitions] << pd
     end
   end
 

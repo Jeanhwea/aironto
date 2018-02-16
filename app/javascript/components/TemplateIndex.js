@@ -51,4 +51,7 @@ class TemplateIndex extends React.Component {
 
 }
 
+TemplateIndex.propTypes = {
+  data: PropTypes.array
+}
 export default TemplateIndex

@@ -121,4 +121,7 @@ class ConceptNew extends React.Component {
 
 }
 
+ConceptNew.propTypes = {
+  data: PropTypes.object
+}
 export default ConceptNew

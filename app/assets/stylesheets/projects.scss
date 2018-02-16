@@ -4,7 +4,7 @@
 
 .project-show {
   display: flex;
-  height: 1200px;
+  height: 1600px;
   justify-content: flex-start;
 }
 
@@ -16,7 +16,7 @@
   z-index: 9;
 }
 
-.usecase-show {
+.detail-show {
   flex-grow: 1;
   margin-left: 0px;
   max-height: 100%;
@@ -27,6 +27,11 @@
 }
 
 .usecase-show-submit-btn-wrapper {
+  padding: 25px;
+  float: right;
+}
+
+.device-show-submit-btn-wrapper {
   padding: 25px;
   float: right;
 }
@@ -55,9 +60,118 @@
   width: inherit;
 }
 
+.rucm-content-cell-icon-add:hover {
+  cursor: pointer;
+}
+
 .rucm-container-cell {
   display: table-cell;
   width: inherit;
+}
+
+
+.rucm-port-definition {
+  display: table;
+  border: 1px solid;
+  width: 100%;
+}
+
+.rucm-port-definition-row {
+  display: table-row;
+}
+
+.rucm-port-definition-caption-num, .rucm-port-definition-cell-num {
+  border: 1px solid;
+  display: table-cell;
+  text-align: center;
+  width: 100px;
+}
+
+.rucm-port-definition-caption-name,
+.rucm-port-definition-caption-type,
+.rucm-port-definition-caption-minimum,
+.rucm-port-definition-caption-maximum,
+.rucm-port-definition-caption-unit,
+.rucm-port-definition-cell-name,
+.rucm-port-definition-cell-type,
+.rucm-port-definition-cell-minimum,
+.rucm-port-definition-cell-maximum,
+.rucm-port-definition-cell-unit
+{
+  border: 1px solid;
+  display: table-cell;
+  width: 100px;
+  padding-left: 5px;
+}
+
+.rucm-port-definition-caption-description, .rucm-port-definition-cell-description {
+  border: 1px solid;
+  display: table-cell;
+  padding-left: 5px;
+}
+
+.rucm-port-definition-cell-wrapper {
+  .rucm-port-definition-cell-icon-wrapper {
+    display: none;
+    spacing: 5px;
+  }
+  .rucm-port-definition-cell-text-wrapper {
+    display: block;
+  }
+}
+
+.rucm-port-definition-cell-wrapper:hover {
+  .rucm-port-definition-cell-icon-wrapper {
+    display: block;
+    spacing: 5px;
+    text-align: center;
+  }
+  .rucm-port-definition-cell-text-wrapper {
+    display: none;
+  }
+}
+
+.rucm-port-definition-cell-icon-operator {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.rucm-port-definition-cell-icon-operator:hover {
+  cursor: pointer;
+}
+
+.rucm-port-definition-cell-num-operator:hover {
+  cursor: pointer;
+}
+
+.rucm-validation-title-cell {
+  .rucm-validation-cell-icon-wrapper {
+    display: none;
+    spacing: 5px;
+  }
+  .rucm-validation-cell-text-wrapper {
+    display: block;
+  }
+}
+
+.rucm-validation-title-cell:hover {
+  .rucm-validation-cell-icon-wrapper {
+    display: block;
+    spacing: 5px;
+    text-align: center;
+  }
+  .rucm-validation-cell-text-wrapper {
+    display: none;
+  }
+}
+
+.rucm-validation-cell-icon-operator {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.rucm-validation-cell-icon-operator:hover {
+  cursor: pointer;
 }
 
 .rucm-steps {
@@ -78,7 +192,6 @@
     visibility: hidden;
   }
 }
-
 
 .rucm-editable-cell-text-wrapper:hover {
   .rucm-editable-cell-icon {
@@ -111,12 +224,17 @@
   margin-right: 3px;
 }
 
-.rucm-editable-cell-icon-check {
-  background: red;
+.rucm-steps-cell-icon-operator {
+  cursor: pointer;
+}
+
+.rucm-steps-cell-icon-add:hover {
+  cursor: pointer;
 }
 
 .rucm-editable-cell-input {
-  width: 95%;
+  border: 1px solid red;
+  width: 100%;
 }
 
 

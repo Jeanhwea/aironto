@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { Menu, Icon } from "antd"
 
 const SubMenu = Menu.SubMenu
@@ -53,6 +54,9 @@ class TopMenu extends React.Component {
               <MenuItem key="new:usecase">
                 <a href="/usecases/new" rel="noopener noreferrer">RUCM用例</a>
               </MenuItem>
+              <MenuItem key="new:port_definition">
+                <a href="/port_definitions/new" rel="noopener noreferrer">端口定义表</a>
+              </MenuItem>
             </MenuItemGroup>
           </SubMenu>
         </Menu>
@@ -62,4 +66,7 @@ class TopMenu extends React.Component {
 
 }
 
+TopMenu.propTypes = {
+  current: PropTypes.string
+}
 export default TopMenu

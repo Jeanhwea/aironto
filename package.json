@@ -11,7 +11,8 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react_ujs": "^2.4.3"
+    "react_ujs": "^2.4.3",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "webpack-dev-server": "^2.11.0"

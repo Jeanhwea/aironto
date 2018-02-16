@@ -107,4 +107,7 @@ class ConceptEdit extends React.Component {
 
 }
 
+ConceptEdit.propTypes = {
+  data: PropTypes.object
+}
 export default ConceptEdit
