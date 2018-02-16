@@ -83,9 +83,8 @@
 .rucm-port-definition-caption-num, .rucm-port-definition-cell-num {
   border: 1px solid;
   display: table-cell;
-  padding-left: 5px;
   text-align: center;
-  width: 80px;
+  width: 100px;
 }
 
 .rucm-port-definition-caption-name,
@@ -109,6 +108,40 @@
   border: 1px solid;
   display: table-cell;
   padding-left: 5px;
+}
+
+.rucm-port-definition-cell-wrapper {
+  .rucm-port-definition-cell-icon-wrapper {
+    display: none;
+    spacing: 5px;
+  }
+  .rucm-port-definition-cell-text-wrapper {
+    display: block;
+  }
+}
+
+.rucm-port-definition-cell-wrapper:hover {
+  .rucm-port-definition-cell-icon-wrapper {
+    display: block;
+    spacing: 5px;
+    text-align: center;
+  }
+  .rucm-port-definition-cell-text-wrapper {
+    display: none;
+  }
+}
+
+.rucm-port-definition-cell-icon-operator {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.rucm-port-definition-cell-icon-operator:hover {
+  cursor: pointer;
+}
+
+.rucm-port-definition-cell-num-operator:hover {
+  cursor: pointer;
 }
 
 .rucm-validation-title-cell {

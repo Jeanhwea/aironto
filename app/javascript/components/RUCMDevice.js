@@ -68,7 +68,7 @@ class RUCMDevice extends React.Component {
     }
   }
 
-  portDefinitioAppend = (e) => {
+  portDefinitionAppend = (e) => {
     this.state.port_definition.push({
       name: "",
       type: "",
@@ -81,6 +81,59 @@ class RUCMDevice extends React.Component {
     this.update()
   }
 
+  portDefinitionInsert = (e) => {
+    const key = e.target.id
+    if (key.startsWith("port")) {
+      const idx = parseInt(key.split(":")[1])
+      this.state.port_definition.splice(idx+1,0,{
+        name: "",
+        type: "",
+        description: "",
+        minimum: "",
+        maximum: "",
+        unit: "",
+      })
+      this.setState({ port_definition: this.state.port_definition })
+      this.update()
+    }
+  }
+
+  portDefinitionRemove = (e) => {
+    const key = e.target.id
+    if (key.startsWith("port")) {
+      const idx = parseInt(key.split(":")[1])
+      this.state.port_definition.splice(idx,1)
+      this.setState({ port_definition: this.state.port_definition })
+      this.update()
+    }
+  }
+
+  portDefinitionUp = (e) => {
+    const key = e.target.id
+    if (key.startsWith("port")) {
+      const idx = parseInt(key.split(":")[1])
+      const port_definitions = this.state.port_definition
+      if (idx > 0) {
+        [port_definitions[idx-1], port_definitions[idx]] = [port_definitions[idx], port_definitions[idx-1]]
+        this.setState({ port_definition: this.state.port_definition })
+        this.update()
+      }
+    }
+  }
+
+  portDefinitionDown = (e) => {
+    const key = e.target.id
+    if (key.startsWith("port")) {
+      const idx = parseInt(key.split(":")[1])
+      const port_definitions = this.state.port_definition
+      if (idx < port_definitions.length-1) {
+        [port_definitions[idx+1], port_definitions[idx]] = [port_definitions[idx], port_definitions[idx+1]]
+        this.setState({ port_definition: this.state.port_definition })
+        this.update()
+      }
+    }
+  }
+
   componentWillMount = () => {
     this.setPortDefinition()
   }
@@ -91,7 +144,37 @@ class RUCMDevice extends React.Component {
       (pd, i) => (
         <div className="rucm-port-definition-row" key={"port:"+i+":"+shortid.generate()}>
           <div className="rucm-port-definition-cell-num">
-            <strong>{ i }</strong>
+            <div className="rucm-port-definition-cell-wrapper">
+              <div className="rucm-port-definition-cell-icon-wrapper">
+                <Icon
+                  id={"port:"+i}
+                  type="close-circle"
+                  className="rucm-port-definition-cell-icon-operator"
+                  onClick={this.portDefinitionRemove}
+                />
+                <Icon
+                  id={"port:"+i}
+                  type="plus-circle"
+                  className="rucm-port-definition-cell-icon-operator"
+                  onClick={this.portDefinitionInsert}
+                />
+                <Icon
+                  id={"port:"+i}
+                  type="up-circle"
+                  className="rucm-port-definition-cell-icon-operator"
+                  onClick={this.portDefinitionUp}
+                />
+                <Icon
+                  id={"port:"+i}
+                  type="down-circle"
+                  className="rucm-port-definition-cell-icon-operator"
+                  onClick={this.portDefinitionDown}
+                />
+              </div>
+              <div className="rucm-port-definition-cell-text-wrapper">
+                <strong>{ i }</strong>
+              </div>
+            </div>
           </div>
           <div className="rucm-port-definition-cell-name">
             <RUCMEditableCell
@@ -159,8 +242,9 @@ class RUCMDevice extends React.Component {
         <div className="rucm-port-definition-row">
           <div className="rucm-port-definition-cell-num">
             <Icon
+              className="rucm-port-definition-cell-num-operator"
               type="plus-circle-o"
-              onClick={this.portDefinitioAppend}
+              onClick={this.portDefinitionAppend}
             />
           </div>
           <div className="rucm-port-definition-cell-name"> </div>
