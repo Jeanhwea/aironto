@@ -1,0 +1,15 @@
+digraph models_diagram {
+	graph[overlap=false, splines=true, bgcolor="none"]
+	"ApplicationRecord" []
+	"Concept" [shape=Mrecord, label="{Concept|id :bigint(20)\lname :varchar(255)\ldescription :text\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"PortDefinition" [shape=Mrecord, label="{PortDefinition|id :bigint(20)\lname :varchar(255)\lcontent :text\lproject_id :bigint(20)\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"Project" [shape=Mrecord, label="{Project|id :bigint(20)\lname :varchar(255)\ldescription :text\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"Relation" [shape=Mrecord, label="{Relation|updated_at :datetime\lconcept_id :bigint(20)\ltemplate_id :bigint(20)\lorder :int(11)\lname :varchar(255)\ldescription :text\lcreated_at :datetime\lid :bigint(20)\l}"]
+	"Template" [shape=Mrecord, label="{Template|id :bigint(20)\lname :varchar(255)\ldescription :text\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"Usecase" [shape=Mrecord, label="{Usecase|id :bigint(20)\ltitle :varchar(255)\lcontent :text\lproject_id :bigint(20)\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"Concept" -> "Relation" [arrowtail=odot, arrowhead=crow, dir=both color="#6A5A74"]
+	"Concept" -> "Template" [arrowtail=crow, arrowhead=crow, dir=both color="#670100"]
+	"Project" -> "Usecase" [arrowtail=odot, arrowhead=crow, dir=both color="#F18D2A"]
+	"Project" -> "PortDefinition" [arrowtail=odot, arrowhead=crow, dir=both color="#01DAEF"]
+	"Template" -> "Relation" [arrowtail=odot, arrowhead=crow, dir=both color="#91CEB2"]
+}
