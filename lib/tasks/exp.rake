@@ -15,32 +15,32 @@ namespace :exp do
         content = JSON.parse(uc.content)
         content["testflow"]["steps"].each do |sent|
           res = ltp_seg(sent)
-          puts sent, res if res
+          if res
+            word_list = res.map{ |e| "#{e[:word]}(#{e[:pos]})" }
+            puts word_list.join('/')
+          end
         end
       end
     end
 
-    # begin
-    #   res = ltp_seg('我爱北京天安门')
-    #   puts res.inspect
-    # rescue
-    #   puts "Error: please start ltp server"
-    # end
-
   end
 
   def ltp_seg text
-
-    params = {"x": "n", "t": "all", "s": text}
+    params = {"x": "n", "t": "pos", "s": text}
     uri = URI.parse("http://localhost:12345/ltp")
     respond = Net::HTTP.post_form(uri, params)
 
-    doc = REXML::Document.new(respond.body)
-    first_sent = REXML::XPath.first(doc, "//sent")
-    if first_sent
-      result = first_sent.elements.map do |word|
-        { word: word.attributes["cont"], pos: word.attributes["pos"] }
+    begin
+      doc = REXML::Document.new(respond.body)
+      first_sent = REXML::XPath.first(doc, "//sent")
+      if first_sent
+        result = first_sent.elements.map do |word|
+          { word: word.attributes["cont"], pos: word.attributes["pos"] }
+        end
       end
+    rescue Exception => e
+      puts e.message
+      puts e.backtrace.inspect
     end
 
   end
