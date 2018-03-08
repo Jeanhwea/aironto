@@ -14,15 +14,14 @@ namespace :exp do
       project.usecases.each do |uc|
         content = JSON.parse(uc.content)
         meta_uc = MetaUsecase.create(project: project)
+        # feilds
         meta_uc.name = content["name"]
         meta_uc.description = content["description"]
-        meta_uc.dependency = content["dependency"].split(",").map{|s| s.gsub(/INCLUDE USE CASE/, "").strip() }.join("/")
+        meta_uc.dependency = content["dependency"].split(",").map{|s| s.gsub(/INCLUDE USE CASE/, "").strip }.join("/")
         meta_uc.precondition = content["precondition"]
         meta_uc.save
-
         # basic flow
         parse_flow_data content["testflow"], meta_uc
-
         # global
         content["globalValidation"].each do |f|
           parse_flow_data f, meta_uc
@@ -31,7 +30,6 @@ namespace :exp do
         content["specificValidation"].each do |f|
           parse_flow_data f, meta_uc
         end
-
 
       end
     end
