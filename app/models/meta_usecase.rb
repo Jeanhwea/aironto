@@ -1,0 +1,2 @@
+class MetaUsecase < ApplicationRecord
+end
