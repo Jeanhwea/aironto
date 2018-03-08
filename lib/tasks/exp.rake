@@ -4,11 +4,21 @@ require "json"
 
 namespace :exp do
 
+  desc "do consistency check for this project"
+  task :check, [:project_id] => [:environment] do |t, args|
+
+    project_id = (args.project_id || 0).to_i
+    project = Project.find(project_id) if project_id > 0
+    if project
+      puts project.inspect
+    end
+
+  end
+
   desc "do segmentation for all usecases in a specific project"
   task :seg, [:project_id] => [:environment] do |t, args|
 
     project_id = (args.project_id || 0).to_i
-
     project = Project.find(project_id) if project_id > 0
     if project
       project.usecases.each do |uc|
