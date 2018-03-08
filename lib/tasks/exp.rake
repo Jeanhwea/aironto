@@ -13,16 +13,41 @@ namespace :exp do
     if project
       project.usecases.each do |uc|
         content = JSON.parse(uc.content)
-        content["testflow"]["steps"].each do |sent|
-          res = ltp_seg(sent)
-          if res
-            word_list = res.map{ |e| "#{e[:word]}(#{e[:pos]})" }
-            puts word_list.join('/')
-          end
+        meta_uc = MetaUsecase.create(project: project)
+        meta_uc.name = content["name"]
+        meta_uc.description = content["description"]
+        meta_uc.dependency = content["dependency"].split(",").map{|s| s.gsub(/INCLUDE USE CASE/, "").strip() }.join("/")
+        meta_uc.precondition = content["precondition"]
+        meta_uc.save
+
+        # basic flow
+        parse_flow_data content["testflow"], meta_uc
+
+        # global
+        content["globalValidation"].each do |f|
+          parse_flow_data f, meta_uc
         end
+        # specific
+        content["specificValidation"].each do |f|
+          parse_flow_data f, meta_uc
+        end
+
+
       end
     end
 
+  end
+
+  def parse_flow_data flow, meta_usecase
+    puts flow
+    meta_flow = MetaFlow.create(key: flow["conditionKey"], value: flow["conditionValue"], postcondition: flow["postcondition"], meta_usecase: meta_usecase)
+    flow["steps"].each_with_index do |content, idx|
+      meta_step = MetaStep.create(number: idx, content: content, meta_flow: meta_flow)
+      res = ltp_seg(content)
+      res.each_with_index do |e, i|
+        meta_word = MetaWord.create(word: e[:word], pos: e[:pos], order: i, meta_step: meta_step)
+      end
+    end
   end
 
   def ltp_seg text

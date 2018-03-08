@@ -4,7 +4,7 @@ class CreateMetaFlows < ActiveRecord::Migration[5.1]
       t.string :key
       t.string :value
       t.string :postcondition
-      t.belongs_to :meta_usecases, index: true
+      t.belongs_to :meta_usecase, index: true
 
       t.timestamps
     end

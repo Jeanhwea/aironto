@@ -23,19 +23,19 @@ ActiveRecord::Schema.define(version: 20180308112658) do
     t.string "key"
     t.string "value"
     t.string "postcondition"
-    t.bigint "meta_usecases_id"
+    t.bigint "meta_usecase_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["meta_usecases_id"], name: "index_meta_flows_on_meta_usecases_id"
+    t.index ["meta_usecase_id"], name: "index_meta_flows_on_meta_usecase_id"
   end
 
   create_table "meta_steps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "number"
     t.string "content"
-    t.bigint "meta_flows_id"
+    t.bigint "meta_flow_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["meta_flows_id"], name: "index_meta_steps_on_meta_flows_id"
+    t.index ["meta_flow_id"], name: "index_meta_steps_on_meta_flow_id"
   end
 
   create_table "meta_usecases", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -53,10 +53,10 @@ ActiveRecord::Schema.define(version: 20180308112658) do
     t.string "word"
     t.string "pos"
     t.integer "order"
-    t.bigint "meta_steps_id"
+    t.bigint "meta_step_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["meta_steps_id"], name: "index_meta_words_on_meta_steps_id"
+    t.index ["meta_step_id"], name: "index_meta_words_on_meta_step_id"
   end
 
   create_table "port_definitions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
