@@ -11,11 +11,24 @@ namespace :exp do
     project = Project.find(project_id) if project_id > 0
     if project
       # check_variable_uniqueness project
-      check_port_uniqueness project
+      check_device_uniqueness project
+      check_usecase_uniqueness project
+      # check_port_uniqueness project
       # check_usecase_link_completeness project
-      check_rfs_link_completeness project
+      # check_rfs_link_completeness project
     end
 
+  end
+
+  def check_device_uniqueness project
+    devices = []
+    project.port_definitions.each do |pd|
+      if devices.include? pd.name
+        puts "duplicate device: #{pd.name} in #{project.name}"
+      else
+        devices << pd.name
+      end
+    end
   end
 
   def check_port_uniqueness project
@@ -45,6 +58,17 @@ namespace :exp do
             end
           end
         end
+      end
+    end
+  end
+
+  def check_usecase_uniqueness project
+    usecases = []
+    project.usecases.each do |uc|
+      if usecases.include? uc.title
+        puts "duplicate usecase: #{uc.title} in #{project.name}"
+      else
+        usecases << project.name
       end
     end
   end
