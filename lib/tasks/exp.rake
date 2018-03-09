@@ -11,10 +11,22 @@ namespace :exp do
     project = Project.find(project_id) if project_id > 0
     if project
       # check_variable_uniqueness project
+      check_port_uniqueness project
       # check_usecase_link_completeness project
       check_rfs_link_completeness project
     end
 
+  end
+
+  def check_port_uniqueness project
+    ports = []
+    MetaPort.where(project: project).each do |p|
+      if ports.include? p.name
+        puts "duplicate port: #{p.name} in #{project.name}"
+      else
+        ports << p.name
+      end
+    end
   end
 
   def check_variable_uniqueness project
@@ -163,11 +175,21 @@ namespace :exp do
 
   end
 
+  def write_port_name project
+    project.port_definitions.each do |pd|
+      content = JSON.parse(pd.content)
+      content.each do |p|
+        port = MetaPort.create(name: p["name"], minimum: p["minimum"], maximum: p["maximum"], unit: p["unit"], project: project)
+      end
+    end
+  end
+
   desc "foo job"
   task :foo, [:project_id] => [:environment] do |t, args|
-    MetaStep.all.each do |s|
-      s.template_name = 'measure' if s.content.include? '测量'
-      s.save
+    project_id = (args.project_id || 0).to_i
+    project = Project.find(project_id) if project_id > 0
+    if project
+      # write_port_name project
     end
   end
 

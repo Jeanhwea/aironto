@@ -1,2 +1,3 @@
 class MetaPort < ApplicationRecord
+  belongs_to :project
 end

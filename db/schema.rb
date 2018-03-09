@@ -31,6 +31,10 @@ ActiveRecord::Schema.define(version: 20180309130212) do
 
   create_table "meta_ports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
+    t.string "minimum"
+    t.string "maximum"
+    t.string "unit"
+    t.string "description"
     t.bigint "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
