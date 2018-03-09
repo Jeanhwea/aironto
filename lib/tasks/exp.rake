@@ -10,9 +10,27 @@ namespace :exp do
     project_id = (args.project_id || 0).to_i
     project = Project.find(project_id) if project_id > 0
     if project
-      puts project.inspect
     end
 
+  end
+
+  desc "link relation for ontology and steps in this project"
+  task :link, [:project_id] => [:environment] do |t, args|
+
+    project_id = (args.project_id || 0).to_i
+    project = Project.find(project_id) if project_id > 0
+    if project
+      tempaltes = Template.all
+      tempaltes_list = []
+      tempaltes.map do |t|
+        tempaltes_list << (t.concepts.map &:name)
+      end
+      puts tempaltes_list
+    end
+
+  end
+
+  def belongs_to_this_template steps, tempaltes_list
   end
 
   desc "do segmentation for all usecases in a specific project"

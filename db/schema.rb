@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180308112658) do
+ActiveRecord::Schema.define(version: 20180309091016) do
 
   create_table "concepts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20180308112658) do
     t.bigint "meta_flow_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "variable_name"
+    t.string "template_name"
     t.index ["meta_flow_id"], name: "index_meta_steps_on_meta_flow_id"
   end
 
