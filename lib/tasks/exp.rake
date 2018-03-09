@@ -10,8 +10,43 @@ namespace :exp do
     project_id = (args.project_id || 0).to_i
     project = Project.find(project_id) if project_id > 0
     if project
+      check_variable_uniqueness project
+      check_usecase_link_completeness project
     end
 
+  end
+
+  def check_variable_uniqueness project
+    MetaUsecase.where(project: project).each do |uc|
+      variables = []
+      uc.meta_flows.each do |f|
+        if f.key == 'Basic'
+          f.meta_steps.each do |s|
+            if s.variable_name == ""
+              next
+            end
+            if variables.include? s.variable_name
+              puts "duplicate variable: #{s.variable_name} in #{uc.name}(#{s.number})"
+            else
+              variables << s.variable_name
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def check_usecase_link_completeness project
+    usecases = MetaUsecase.where(project: project).map &:name
+    usecases << "无"
+    MetaUsecase.where(project: project).each do |uc|
+      dependencies = uc.dependency.split("/")
+      dependencies.each do |dep|
+        if not usecases.include? dep
+          puts "dependency incomplete: #{dep} in #{uc.name}"
+        end
+      end
+    end
   end
 
   desc "link relation for ontology and steps in this project"
@@ -21,16 +56,29 @@ namespace :exp do
     project = Project.find(project_id) if project_id > 0
     if project
       tempaltes = Template.all
-      tempaltes_list = []
-      tempaltes.map do |t|
-        tempaltes_list << (t.concepts.map &:name)
-      end
-      puts tempaltes_list
+      steps = MetaStep.all
+      t = belongs_to_this_template steps.first, tempaltes
+      puts t.concepts.map{|c| c.name}.join("/")
     end
 
   end
 
-  def belongs_to_this_template steps, tempaltes_list
+  def belongs_to_this_template meta_step, tempaltes_list
+    words_list = meta_step.meta_words
+    tempaltes_list.each do |t|
+      found = true
+      t.concepts.each_with_index do |c, i|
+        if i < words_list.length
+          w = words_list[i]
+          if ['n', 'v'].include? w.pos and w.word != c.name
+            found = false
+          end
+        end
+      end
+      if found
+        return t
+      end
+    end
   end
 
   desc "do segmentation for all usecases in a specific project"
