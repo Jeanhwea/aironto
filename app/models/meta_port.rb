@@ -1,0 +1,2 @@
+class MetaPort < ApplicationRecord
+end
