@@ -10,8 +10,9 @@ namespace :exp do
     project_id = (args.project_id || 0).to_i
     project = Project.find(project_id) if project_id > 0
     if project
-      check_variable_uniqueness project
-      check_usecase_link_completeness project
+      # check_variable_uniqueness project
+      # check_usecase_link_completeness project
+      check_rfs_link_completeness project
     end
 
   end
@@ -44,6 +45,24 @@ namespace :exp do
       dependencies.each do |dep|
         if not usecases.include? dep
           puts "dependency incomplete: #{dep} in #{uc.name}"
+        end
+      end
+    end
+  end
+
+  def check_rfs_link_completeness project
+    MetaUsecase.where(project: project).each do |uc|
+      variables = []
+      basic_flow = uc.meta_flows.select{ |f| f.key == "Basic" }.first
+      uc.meta_flows.each do |f|
+        if f.key == 'RFS'
+          rfs_value = f.value.split(",")
+          rfs_value.each do |str|
+            rfs = str.to_i
+            if rfs < basic_flow.meta_steps.length and basic_flow.meta_steps[rfs].template_name != 'validation'
+              puts "rfs incomplete: #{rfs} in #{uc.name}"
+            end
+          end
         end
       end
     end
@@ -142,6 +161,14 @@ namespace :exp do
       puts e.backtrace.inspect
     end
 
+  end
+
+  desc "foo job"
+  task :foo, [:project_id] => [:environment] do |t, args|
+    MetaStep.all.each do |s|
+      s.template_name = 'measure' if s.content.include? '测量'
+      s.save
+    end
   end
 
 end
