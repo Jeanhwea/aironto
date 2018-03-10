@@ -10,12 +10,12 @@ namespace :exp do
     project_id = (args.project_id || 0).to_i
     project = Project.find(project_id) if project_id > 0
     if project
-      # check_variable_uniqueness project
+      check_variable_uniqueness project
       check_device_uniqueness project
       check_usecase_uniqueness project
-      # check_port_uniqueness project
-      # check_usecase_link_completeness project
-      # check_rfs_link_completeness project
+      check_port_uniqueness project
+      check_usecase_link_completeness project
+      check_rfs_link_completeness project
     end
 
   end
