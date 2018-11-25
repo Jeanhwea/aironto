@@ -44,6 +44,7 @@ group :development, :test do
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
   gem 'railroady'
+  gem "rack", ">= 2.0.6"
 end
 
 group :development do
